@@ -24,7 +24,7 @@ Circulo criar_circulo(int id, double x, double y, double r, char* corb, char* co
 /// @brief Define a coordenada x do centro do ciruclo c
 /// @param c O circulo em questao
 /// @param x A nova coordenada x do centro do circulo
-void setXciruclo(Circulo c, double x);
+void setXcirculo(Circulo c, double x);
 
 /// @brief Define a coordenada y do centro do circulo c
 /// @param c O ciruclo em questao

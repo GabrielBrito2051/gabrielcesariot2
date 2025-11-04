@@ -31,7 +31,7 @@ tipoforma getTipoForma(Pacote pac);
 /// @brief Pega a forma contida no pacote
 /// @param pacote O pacote que sera lido
 /// @return Retorna a forma do pacote
-Forma getFORMApacote(Pacote pacote);
+Forma getFORMApacote(Pacote pac);
 
 /// @brief Pega o id de uma forma de acordo com seu tipo
 /// @param f A forma

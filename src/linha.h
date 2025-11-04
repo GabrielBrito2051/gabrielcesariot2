@@ -25,7 +25,7 @@ void setCORCOMPLlinha(Linha l);
 /// @param y2 O valor da coordenada y do fim da linha
 /// @param cor O valor haxadecimal da cor da linha
 /// @return Retorna um ponteiro para a linha criada
-Linha criar_linha(int i, double x1, double y1, double x2, double y2, char* cor);
+Linha criar_linha(int i, double x1, double y1, double x2, double y2, char* corb);
 
 /// @brief Pega o valor do identificador da linha l
 /// @param l A linha que tera seu identificador lido
@@ -62,11 +62,6 @@ char* getCORBlinha(Linha l);
 /// @return Retorna um array de caracteres com o valor hexadecimal da cor complementar da linha
 char* getCORCOMPLlinha(Linha l);
 
-/// @brief Define o valor do identificador da linha l
-/// @param l A linha que tera seu identificador definido
-/// @param i O valor do identificador da linha
-void setIDlinha(Linha l,int i);
-
 /// @brief Define o valor da coordenada x de inicio da linha l
 /// @param l A linha que tera sua coordenada x de incio definida
 /// @param x1 O valor da coordenada x de inicio da linha
@@ -90,7 +85,7 @@ void setY2linha(Linha l, double y2);
 /// @brief Deifne o valor da cor hexadecimal da linha
 /// @param l A linha que tera sua cor definida
 /// @param cor O valor hexadecimal da cor da linha
-void setCORBlinha(Linha l, char* cor);
+void setCORBlinha(Linha l, char* corb);
 
 /// @brief Libera a memoria da cor de borda da linha
 /// @param l A linha
