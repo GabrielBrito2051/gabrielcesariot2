@@ -12,13 +12,12 @@ typedef struct{
 void setCORCOMPLlinha(Linha l){
     int r, g, b;
     int Rcompl, Gcompl, Bcompl;
-    char extra[2];
     char* p = ((linha*)l)->corb;
-    sscanf(p, "%1s%2x%2x%2x",extra, &r, &g, &b);
+    sscanf(p, "%*c%2x%2x%2x", &r, &g, &b);
     Rcompl = 255 - r;
     Gcompl = 255 - g;
     Bcompl = 255 - b;
-    sprintf(((linha*)l)->corcompl, "#%X%X%X", Rcompl, Gcompl, Bcompl);
+    sprintf(((linha*)l)->corcompl, "#%02X%02X%02X", Rcompl, Gcompl, Bcompl);
 }
 
 Linha criar_linha(int i, double x1, double y1, double  x2, double y2, char* corb){
@@ -92,6 +91,7 @@ void setY2linha(Linha l, double y2){
 
 void setCORBlinha(Linha l, char* corb){
     strcpy(((linha*)l)->corb, corb);
+    setCORCOMPLlinha(l);
 }
 
 void freeCORBlinha(Linha l){

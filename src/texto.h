@@ -105,11 +105,6 @@ char* getTXTOtexto(Texto t);
 /// @return Retorna a quantidade de caracteres do texto
 int getTAMANHOtexto(Texto t);
 
-/// @brief Define o valor do identificador do texto t
-/// @param t O texto que tera seu identificador definido
-/// @param i O valor do identificadro do texto
-void setIDtexto(Texto t, int i);
-
 /// @brief Define o valor da coordenada x da ancora do texto t
 /// @param t O texto que tera sua coordeada x definida
 /// @param x O valor da coordenada x da ancora do texto
@@ -129,16 +124,6 @@ void setCORBtexto(Texto t, char* corb);
 /// @param t O texto no qual tera sua cor complementar lida
 /// @param corcompl O valor da cor complementar do texto
 void setCORPtexto(Texto t, char* corp);
-
-/// @brief Define a posicao da ancora do texto t
-/// @param t O texto no qual tera a posicao de sua ancora definida
-/// @param a O caracter que informa a posicao da ancora do texto
-void setAtexto(Texto t, char a);
-
-/// @brief Define a mensagem contida no texto t
-/// @param t O texto que tera sua mensagem definida
-/// @param txto O array de caracteres que compoe a mensagem
-void setTXTOtexto(Texto t, char* txto);
 
 /// @brief Libera a memoria da cor de borda do texto
 /// @param t O texto
