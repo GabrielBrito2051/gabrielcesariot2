@@ -27,16 +27,16 @@ Forma getFORMApacote(Pacote pac){
 
 int getIDforma(Forma f, tipoforma tipo){
     if(tipo==CIRCULO){
-        return getIcirculo(f);
+        return getIDcirculo(f);
     }
     else if(tipo==RETANGULO){
-        return getIretangulo(f);
+        return getIDretangulo(f);
     }
     else if(tipo==LINHA){
-        return getIlinha(f);
+        return getIDlinha(f);
     }
     else{
-        return getItexto(f);
+        return getIDtexto(f);
     }
 }
 
@@ -61,21 +61,21 @@ void setFormaPacote(Pacote pac, Forma forma){
 
 void destruirFormaPacote(Pacote pac){
 
-    if(pac->tipo==LINHA){
-        freeCorbCir(pac->forma);
-        freeCorpCir(pac->forma);
+    if(pac->tipo==CIRCULO){
+        freeCORBcirculo(pac->forma);
+        freeCORPcirculo(pac->forma);
+    }
+    else if(pac->tipo==RETANGULO){
+        freeCORBretangulo(pac->forma);
+        freeCORPretangulo(pac->forma);
     }
     else if(pac->tipo==LINHA){
-        freeCorbRet(pac->forma);
-        freeCorpRet(pac->forma);
-    }
-    else if(pac->tipo==LINHA){
-        freeCorbLinha(pac->forma);
-        freeCorpLinha(pac->forma);
+        freeCORBlinha(pac->forma);
+        freeCORPlinha(pac->forma);
     }
     else{
-        freeCorpTexto(pac->forma);
-        freeCorbTexto(pac->forma);
+        freeCORBtexto(pac->forma);
+        freeCORPtexto(pac->forma);
         freeTXTOtexto(pac->forma);
     }
     free(pac->forma);

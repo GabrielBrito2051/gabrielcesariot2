@@ -4,6 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "circulo.h"
+#include "retangulo.h"
+#include "linha.h"
+#include "texto.h"
 
 typedef enum{
     CIRCULO,
@@ -44,7 +48,7 @@ int getIDforma(Forma f, tipoforma tipo);
 /// @param tipo O tipo da forma
 void setTipoForma(Pacote p, char tipo);
 
-/// @brief Insere um forma dentro de um pacote
+/// @brief Insere uma forma dentro de um pacote
 /// @param pac O pacote
 /// @param forma A forma que sera inserida no pacote
 void setFormaPacote(Pacote pac, Forma forma);
