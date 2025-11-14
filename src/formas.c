@@ -59,8 +59,13 @@ void setFormaPacote(Pacote pac, Forma forma){
     pac->forma = forma;
 }
 
-void destruirFormaPacote(Pacote pac){
+int compara_forma(int id,Pacote pac){
+    Forma f = pac->forma;
+    tipoforma tipo = pac->tipo;
+   return ( getIDforma(f,tipo)==id) ? 1:0;
+}
 
+void destruirFormaPacote(Pacote pac){
     if(pac->tipo==CIRCULO){
         freeCORBcirculo(pac->forma);
         freeCORPcirculo(pac->forma);

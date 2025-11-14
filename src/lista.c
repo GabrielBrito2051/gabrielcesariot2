@@ -4,7 +4,7 @@
 #include "formas.h"
 
 typedef struct ELEMENTO{
-    Forma forma;
+    Pacote forma;
     struct ELEMENTO* ante;
     struct ELEMENTO* prox;
 }elemento;
@@ -51,15 +51,52 @@ void insere_lista(Lista l, Forma forma){
     var->tamanho++;
 }
 
-void remove_lista(Lista l, Forma forma){
+Pacote remove_lista(Lista l, int (*compara_formas)(int id, Pacote forma),int id){
     lista* var = (lista*)l;
-
+    pont atual = var->inicio;
+    while(atual!=NULL){
+        if(compara_formas(id, atual->forma)==1){
+            if(atual->ante!=NULL){
+                atual->ante->prox = atual->prox;
+            }else{
+                var->inicio = atual->prox;
+            }
+            if(atual->prox!=NULL){
+                atual->prox->ante = atual->ante;
+            }else{
+                var->fim = atual->ante;
+            }
+            Forma f = atual->forma;
+            free(atual);
+            var->tamanho--;
+            return f;
+        }
+        atual = atual->prox;
+    }
+    printf("Nenhuma forma com o id %d encontrada!\n",id);
+    return NULL;
 }
 
-Forma get_inicio_lista(Lista l){
+Pacote get_inicio_lista(Lista l){
     return ((lista*)l)->inicio->forma;
 }
 
-Forma get_final_lista(Lista l){
+Pacote get_final_lista(Lista l){
     return ((lista*)l)->fim->forma;
+}
+
+void destroiLista(Lista l){
+    lista* var = (lista*)l;
+    if(var==NULL){
+        return;
+    }
+    pont atual = var->inicio;
+    pont apagar;
+    while(atual!=NULL){
+        apagar = atual;
+        atual = atual->prox;
+        freePacote(apagar->forma);
+        free(apagar);
+    }
+    free(var);
 }

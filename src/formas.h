@@ -53,6 +53,12 @@ void setTipoForma(Pacote p, char tipo);
 /// @param forma A forma que sera inserida no pacote
 void setFormaPacote(Pacote pac, Forma forma);
 
+/// @brief Compara uma forma com um id desejado
+/// @param id O id que sera comparado com a forma
+/// @param pac O pacote da forma
+/// @return Retorna 1 se a forma tiver o id inserido e 0 caso contrario
+int compara_forma(int id, Pacote pac);
+
 /// @brief Libera a memoria de uma forma dentro do pacote
 /// @param pac O pacote
 void destruirFormaPacote(Pacote pac);
