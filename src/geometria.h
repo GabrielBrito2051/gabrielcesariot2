@@ -40,13 +40,40 @@ double min(double a, double b);
 /// @return Retorna o valor do angulo em radianos entre a bomba e o vertice
 double calcula_angulo(double cx, double cy, double x, double y);
 
-
+/// @brief Calcula a orientacao de um ponto em relacao a um segmento
+/// @param ax A coordenada x de inicio do segmento
+/// @param ay A coordenada y de inicio do segmento
+/// @param bx A coordenada x do fim do segmento
+/// @param by A coordenada y do fim do segmento
+/// @param px A coordenada x do ponto(bomba)
+/// @param py A coordenada y do ponto(bomba)
+/// @return Retorna um valor maior que zero caso o ponto esteja a esquerda do segmento, um valor menor que zerocaso esteja a direita e zero se estiver alinhado com o segmento
 double calcula_orientacao(double ax, double ay, double bx, double by, double px, double py);
 
+/// @brief Verifica se ha a interseccao entre dois segmentos e, se houver, mostra em qual posicao ocorre
+/// @param ax A coordenada x do inicio do segmento 1
+/// @param ay A coordenada y do inicio do segmento 1
+/// @param bx A coordenada x do fim do segmento 1
+/// @param by A coordenada y do fim do segmento 1
+/// @param cx A coordenada x do inicio do segmento 2
+/// @param cy A coordenada y do inicio do segmento 2
+/// @param ex A coordenada x do fim do segmento 2
+/// @param ey A coordenada y do fim do segmento 2
+/// @param ix 
+/// @param iy 
+/// @return 
+int interseccao_segmentos(double ax, double ay, double bx, double by, double cx, double cy, double ex, double ey, double* ix, double* iy);
 
-int interseccao_segmentos(double ax, double ay, double bx, double by, double cx, double cy, double dx, double dy, double* ix, double* iy);
-
-
+/// @brief Calcula a distancia de um vertice a bomba
+/// @param bx Coordenada x da bomba
+/// @param by Coordenada y da bomba
+/// @param vx Coordenada x do vertice atual
+/// @param vy Coordenada y do vertice atual
+/// @param p1x Coordenada x do inicio do segmento que ja esta na arvore
+/// @param p1y Coordenada y do inicio do segmento que ja esta na arvore
+/// @param p2x Coordenada x do fim do segmento que ja esta na arvore
+/// @param p2y Coordenada y do fim do segmento que ja esta na arvore
+/// @return Retorna a distancia da bomba ao vertice
 double distancia_raio(double bx, double by, double vx, double vy, double p1x, double p1y, double p2x, double p2y);
 
 #endif
