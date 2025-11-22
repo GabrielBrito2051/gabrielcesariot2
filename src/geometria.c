@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <stdbool.h>
 #include "geometria.h"
 
 #define PI 3.14159265358979323846
@@ -37,7 +38,7 @@ double calcula_orientacao(double ax, double ay, double bx, double by, double px,
     return  (bx-ax) * (py - ay) - (by - ay) * (px - ax);
 }
 
-int interseccao_segmentos(double ax, double ay, double bx, double by, double cx, double cy, double ex, double ey, double* ix, double* iy){
+bool interseccao_segmentos(double ax, double ay, double bx, double by, double cx, double cy, double ex, double ey, double* ix, double* iy){
     double r_x = bx - ax;
     double r_y = by - ay;
     double s_x = ex - cx;

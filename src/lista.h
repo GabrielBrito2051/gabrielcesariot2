@@ -30,20 +30,35 @@ void insere_lista(Lista l, Forma forma);
 /// @param compara_formas Ponteiro para a funcao que compara elementos de um tipo especifico
 /// @param id O id da forma que sera removida
 ///@return Retorna um ponteiro para a forma que foi removida
-Pacote remove_lista(Lista l, int(*compara_formas)(int id, Pacote forma),int id);
+Forma remove_lista(Lista l, int(*compara_formas)(int id, Pacote forma),int id);
 
 /// @brief Pega o primeiro elemento da lista
 /// @param l A lista
 /// @return Retorna um ponteiro com o primeiro elemento
-Pacote get_inicio_lista(Lista l);
+Forma get_inicio_lista(Lista l);
 
 /// @brief Pega o ultimo elemnto da lista
 /// @param l A lista
 /// @return Retorna um ponteiro com o ultimo elemento
-Pacote get_final_lista(Lista l);
+Forma get_final_lista(Lista l);
+
+/// @brief Pega o conteudo de um determinado no de uma lista
+/// @param no O no
+/// @return Retorna o conteudo do no
+Forma get_conteudo_lista(void* no);
+
+/// @brief Encontra o proximo item da lista
+/// @param l A lista
+/// @param f O item atual
+/// @return Retorna o ponteiro para o proximo item
+Forma proximo_lista(Lista l, Forma f);
 
 /// @brief Libera a memoria de uma lista
 /// @param l A lista
-void destroiLista(Lista l);
+void destroiListaDeFormas(Lista l);
+
+/// @brief Libera a memoria da lista de pontos do poligono
+/// @param l A lista de pontos
+void destroiListaPoligono(Lista l);
 
 #endif

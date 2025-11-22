@@ -51,7 +51,7 @@ void insere_lista(Lista l, Forma forma){
     var->tamanho++;
 }
 
-Pacote remove_lista(Lista l, int (*compara_formas)(int id, Pacote forma),int id){
+Forma remove_lista(Lista l, int (*compara_formas)(int id, Pacote forma),int id){
     lista* var = (lista*)l;
     pont atual = var->inicio;
     while(atual!=NULL){
@@ -77,15 +77,39 @@ Pacote remove_lista(Lista l, int (*compara_formas)(int id, Pacote forma),int id)
     return NULL;
 }
 
-Pacote get_inicio_lista(Lista l){
+Forma get_inicio_lista(Lista l){
     return ((lista*)l)->inicio->forma;
 }
 
-Pacote get_final_lista(Lista l){
+Forma get_final_lista(Lista l){
     return ((lista*)l)->fim->forma;
 }
 
-void destroiLista(Lista l){
+Forma get_conteudo_lista(void* no){
+    pont var = (pont) no;
+    return var;
+}
+
+Forma proximo_lista(Lista l, Forma f){
+    lista* var = (lista*) l;
+    pont atual = var->inicio;
+
+    while(atual != NULL && atual->forma != f){
+        atual = atual->prox;
+    }
+
+    if(atual == NULL){
+        return NULL;
+    }
+    
+    if(atual->prox == NULL){
+        return NULL; 
+    }
+
+    return atual->prox->forma;
+}
+
+void destroiListaDeFormas(Lista l){
     lista* var = (lista*)l;
     if(var==NULL){
         return;
@@ -96,6 +120,20 @@ void destroiLista(Lista l){
         apagar = atual;
         atual = atual->prox;
         freePacote(apagar->forma);
+        free(apagar);
+    }
+    free(var);
+}
+
+void destroiListaPoligono(Lista l){
+    lista* var = (lista*)l;
+    if(var==NULL) return;
+    pont atual = var->inicio;
+    pont apagar;
+    while(atual!=NULL){
+        apagar = atual;
+        atual - atual->prox;
+        free_ponto(apagar->forma);
         free(apagar);
     }
     free(var);

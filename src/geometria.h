@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <stdbool.h>
 
 typedef void* Segmento;
 
@@ -59,10 +60,10 @@ double calcula_orientacao(double ax, double ay, double bx, double by, double px,
 /// @param cy A coordenada y do inicio do segmento 2
 /// @param ex A coordenada x do fim do segmento 2
 /// @param ey A coordenada y do fim do segmento 2
-/// @param ix 
-/// @param iy 
-/// @return 
-int interseccao_segmentos(double ax, double ay, double bx, double by, double cx, double cy, double ex, double ey, double* ix, double* iy);
+/// @param ix Valor passado por referencia para armazenar a coordenada x da inteseccao dos segmentos
+/// @param iy Valor passado por referencia para armazenar a coordenada y da inteseccao dos segmentos
+/// @return Retorna true caso ocorra a interseccao dos segmentos e false caso contrario
+bool interseccao_segmentos(double ax, double ay, double bx, double by, double cx, double cy, double ex, double ey, double* ix, double* iy);
 
 /// @brief Calcula a distancia de um vertice a bomba
 /// @param bx Coordenada x da bomba
