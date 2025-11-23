@@ -90,3 +90,36 @@ void freePacote(Pacote pac){
     destruirFormaPacote(pac);
     free(pac);
 }
+
+void getSegmentoLinha(Forma f, tipoforma tipo, double* x1, double*y1, double *x2, double* y2){
+    if(tipo == LINHA){
+        *x1 = getX1linha(f);
+        *y1 = getY1linha(f);
+        *x2 = getX2linha(f);
+        *y2 = getY2linha(f);
+    }else{
+        double xt = getXtexto(f);
+        double yt = getYtexto(f);
+        char ancora = getAtexto(f);
+        const char* conteudo = getTXTOtexto(f);
+        int tamanho = strlen(conteudo);
+
+        *y1 = yt;
+        *y2 = yt;
+
+        if(ancora == 'i'){
+            *x1 = xt;
+            *x2 = xt + 10.0 * tamanho;
+        }
+        
+        else if(ancora == 'f'){
+            *x1 = xt - 10.0 * tamanho;
+            *x2 = xt;
+        }
+
+        else if(ancora == 'm'){
+            *x1 = xt - 5*tamanho;
+            *x2 = xt + 5*tamanho;
+        }
+    }
+}
