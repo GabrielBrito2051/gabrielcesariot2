@@ -105,7 +105,7 @@ void print_poligono_svg(FILE* svg, Poligono p, char* corp, double opacity){
     if(var==NULL||svg==NULL) return;
 
     fprintf(svg,"\n<polygon points=\"");
-    if(var->pontos==NULL){
+    if(var->pontos!=NULL){
         void* atual = get_inicio_lista(var->pontos);
         while(atual!=NULL){
             ponto* pt = get_conteudo_lista(atual);
