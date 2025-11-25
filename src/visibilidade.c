@@ -49,7 +49,7 @@ int cmp_segmentos_arvore(Segmento a, Segmento b){
     double dist_a = distancia_raio(gbx, gby, gvx, gvy, ax1, ay1, ax2, ay2);
     double dist_b = distancia_raio(gbx, gby, gvx, gvy, bx1, by1, bx2, by2);
 
-    if(fabs(dist_a - dist_b) > 1e-9);{
+    if(fabs(dist_a - dist_b) > 1e-9){
         return (dist_a < dist_b) ? -1:1;
     }
 
@@ -111,9 +111,9 @@ Lista calcular_visibilidade(Lista listaSegmentos, double bx, double by){
         atual = proximo_lista(listaSegmentos, atual);
     }
 
-    qsort(e, num_eventos, sizeof(evento), cmp_eventos); //--------------------nao implementado-------------------------
+    qsort(e, num_eventos, sizeof(evento), cmp_eventos);
     Arvore seg_ativos = criar_arvore(cmp_segmentos_arvore);
-    Lista poligono = criar_lista();
+    Poligono poligono = criar_poligono();
 
     for(int k=0;k<num_eventos;k++){
         evento ev = e[k];
@@ -122,7 +122,7 @@ Lista calcular_visibilidade(Lista listaSegmentos, double bx, double by){
 
         Segmento seg_ante = busca_mais_proximo(seg_ativos);
 
-        if(ev.tipo =inicio){
+        if(ev.tipo == inicio){
             insere_arvore(seg_ativos, ev.seg);
         }else{
             remove_arvore(seg_ativos, ev.seg);
@@ -143,21 +143,38 @@ Lista calcular_visibilidade(Lista listaSegmentos, double bx, double by){
             }
         }
         if(vertice_visivel==1){
-            
+            inserir_ponto(poligono,ev.x, ev.y);
         }
         if(seg_ante!=seg_depois){
-            double x1, y1, x2, y2;
-            x1 = getX1linha(seg_ante);
-            y1 = getY1linha(seg_ante);
-            x2 = getX2linha(seg_ante);
-            y2 = getY2linha(seg_ante);
-            double x3, y3, x4, y4;
-            x3 = getX1linha(seg_depois);
-            y3 = getY1linha(seg_depois);
-            x4 = getX2linha(seg_depois);
-            y4 = getY2linha(seg_depois);
-            double *ix, *iy;
-            interseccao_segmentos(x1,y1,x2,y2,x3,y3,x4,y4, &ix, &iy);
+            Segmento alvo = NULL;
+            if(ev.tipo==fim){
+                if(seg_depois !=NULL){
+                    alvo = seg_depois;
+                }
+            }
+            else if(ev.tipo==inicio){
+                if(seg_ante != NULL){
+                    alvo = seg_ante;
+                }
+            }
+
+            if(alvo != NULL){
+                double sx1 = getX1linha(alvo);
+                double sy1 = getY1linha(alvo);
+                double sx2 = getX2linha(alvo);
+                double sy2 = getY2linha(alvo);
+                double ix, iy;
+                double raiox = bx + (ev.x - bx) * 10000.0;
+                double raioy = by + (ev.y - by) * 10000.0;
+
+                bool colidiu = interseccao_segmentos(bx, by, raiox, raioy, sx1, sy1, sx2, sy2, &ix, &iy);
+                if(colidiu){
+                    double du = distancia_raio(bx, by, ev.x, ev.y, sx1, sy1, sx2, sy2);
+                    if(du>1.0 + 1e-9){
+                        inserir_ponto(poligono, ix, iy);
+                    }
+                }
+            }
         }
     }
 
@@ -224,6 +241,8 @@ int atinge_forma(Poligono poligono, Forma forma, tipoforma tipo){
 
             return 0;
         }
+        default:
+            return 0;
     }
 }
 

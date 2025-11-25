@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "boundingbox.h"
 #include "lista.h"
 #include "geometria.h"
 
@@ -40,16 +39,7 @@ bool contem_ponto(Poligono p,double x, double y);
 /// @param x2 A coordenada x do fim do segmento
 /// @param y2 A coordenada y do fim do segmento
 /// @return Retorna true se o segmento intercepta o poligono e false caso contrario
-bool intercepta_seg(Poligono p, double x1, double y1, double x2, double y2);    
-
-/// @brief Cria a bounding box do poligono
-/// @param p O poligono
-/// @param xMin Ponteiro para armazenar o resultado da menor coordenada x da box
-/// @param yMin Ponteiro para armazenar o resultado da menor coordenada y da box
-/// @param xMax Ponteiro para armazenar o resultado da maior coordenada x da box
-/// @param yMax Ponteiro para armazenar o resultado da maior coordenada y da box
-/// @return Retorna o ponteiro da bounding box do poligono
-BoundingBox box_poligono(Poligono p, double* xMin, double* yMin, double* xMax, double* yMax);
+bool intercepta_seg(Poligono p, double x1, double y1, double x2, double y2);
 
 /// @brief Libera a memoria de um ponto
 /// @param p O ponto

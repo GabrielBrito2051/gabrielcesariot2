@@ -46,7 +46,7 @@ bool interseccao_segmentos(double ax, double ay, double bx, double by, double cx
 
     double det = (r_x * s_y) - (r_y * s_x);
     if(fabs(det)<epsilon){
-        return 0;
+        return false;
     }
 
     double val_comum_x = cx- ax;
@@ -63,9 +63,9 @@ bool interseccao_segmentos(double ax, double ay, double bx, double by, double cx
         if(iy!=NULL){
             *iy = ay + (t * r_y);
         }
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 double distancia_raio(double bx, double by, double vx, double vy, double p1x, double p1y, double p2x, double p2y){

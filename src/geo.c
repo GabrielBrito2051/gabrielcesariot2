@@ -40,7 +40,7 @@ void le_geo(FILE* geo, FILE* svgGeo, Estilo ts, Lista listaFormas, int* nformas)
             Retangulo r = criar_retangulo(id, x, y, w, h, corb, corp);
             setTipoForma(pac, tipo[0]);
             setFormaPacote(pac, r);
-            insere_lista(listaFormas,r);
+            insere_lista(listaFormas,pac);
             insere_retangulo_svg(svgGeo,r);
         }
 
@@ -50,7 +50,7 @@ void le_geo(FILE* geo, FILE* svgGeo, Estilo ts, Lista listaFormas, int* nformas)
             Linha l = criar_linha(id, x, y, x2, y2, corb);
             setTipoForma(pac, tipo[0]);
             setFormaPacote(pac, l);
-            insere_lista(listaFormas, l);
+            insere_lista(listaFormas, pac);
             insere_linha_svg(svgGeo, l);
         }
 
@@ -60,7 +60,7 @@ void le_geo(FILE* geo, FILE* svgGeo, Estilo ts, Lista listaFormas, int* nformas)
             Texto t = criar_texto(id, x, y, corb, corp, a, txto);
             setTipoForma(pac, tipo[0]);
             setFormaPacote(pac, t);
-            insere_lista(listaFormas,t);
+            insere_lista(listaFormas,pac);
             insere_texto_svg(svgGeo, t, ts);
         }
 

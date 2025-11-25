@@ -17,6 +17,9 @@ typedef struct{
 
 pont criar_no(Segmento seg){
     pont novo = (pont)malloc(sizeof(elemento));
+    if(novo==NULL){
+        return NULL;
+    }
     novo->seg = seg;
     novo->esq = NULL;
     novo->dir = NULL;
@@ -26,10 +29,11 @@ pont criar_no(Segmento seg){
 pont inserir_recursivo(pont raiz, Segmento seg, comparador cmp){
     if(raiz==NULL) return criar_no(seg);
     
-    if(cmp(seg,raiz->seg)<0){
+    int compara = cmp(seg,raiz->seg);
+    if(compara<0){
         raiz->esq = inserir_recursivo(raiz->esq,seg,cmp);
     }
-    else if(cmp(seg,raiz->seg)>0){
+    else if(compara>0){
         raiz->dir = inserir_recursivo(raiz->dir,seg,cmp);
     }
     return raiz;
@@ -46,14 +50,17 @@ pont menor_no(pont raiz){
 pont remover_recursivo(pont raiz, Segmento seg, comparador cmp, void** seg_removido){
     if(raiz == NULL)return NULL;
 
-    if(cmp(seg,raiz->seg)<0){
+    int compara = cmp(seg,raiz->seg);
+
+    if(compara<0){
         raiz->esq = remover_recursivo(raiz->esq, seg, cmp, seg_removido);
     }
-    else if(cmp(seg,raiz->seg)>0){
+    else if(compara>0){
         raiz->dir = remover_recursivo(raiz->dir,seg,cmp,seg_removido);
     }else{
-        *seg_removido = raiz->seg;
-
+        if(seg_removido!=NULL){
+            *seg_removido = raiz->seg;
+        }
         if(raiz->esq==NULL){
             pont temp = raiz->dir;
             free(raiz);
@@ -82,17 +89,22 @@ void liberar_recursivo(pont raiz){
 
 Arvore criar_arvore(comparador f){
     arvore* a = malloc(sizeof(arvore));
+    if(a==NULL){
+        return NULL;
+    }
     a->raiz = NULL;
     a->cmp = f;
     return a;
 }
 
 void insere_arvore(Arvore a, Segmento seg){
+    if(a==NULL) return;
     arvore* arv = (arvore*) a;
     arv->raiz = inserir_recursivo(arv->raiz, seg, arv->cmp);
 }
 
 Segmento remove_arvore(Arvore a, Segmento seg){
+    if(a==NULL) return NULL;
     arvore* arv = (arvore*) a;
     Segmento seg_removido = NULL;
     arv->raiz = remover_recursivo(arv->raiz,seg,arv->cmp,&seg_removido);
@@ -100,6 +112,7 @@ Segmento remove_arvore(Arvore a, Segmento seg){
 }
 
 Segmento busca_mais_proximo(Arvore a){
+    if(a==NULL) return NULL;
     arvore* arv = (arvore*)a;
     if(arv->raiz==NULL) return NULL;
 
