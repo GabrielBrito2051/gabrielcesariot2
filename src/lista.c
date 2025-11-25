@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "lista.h"
 #include "formas.h"
+#include "poligono.h"
 
 typedef struct ELEMENTO{
     Pacote forma;
@@ -132,7 +133,7 @@ void destroiListaPoligono(Lista l){
     pont apagar;
     while(atual!=NULL){
         apagar = atual;
-        atual - atual->prox;
+        atual = atual->prox;
         free_ponto(apagar->forma);
         free(apagar);
     }

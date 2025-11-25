@@ -29,12 +29,13 @@ Poligono inserir_ponto(Poligono p, double x, double y){
     poligono* var = (poligono*)p;
     ponto* novoponto = malloc(sizeof(ponto));
     if(novoponto==NULL){
-        return;
+        return NULL;
     }
     novoponto->x = x;
     novoponto->y = y;
 
     insere_lista(var->pontos, novoponto);
+    return var;
 }
 
 void free_poligono(Poligono p){

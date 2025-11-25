@@ -23,11 +23,11 @@ typedef struct{
     Segmento seg;
 }evento;
 
-typedef void* Evento;
+typedef  void* Evento;
 
 static double gbx, gby, gvx, gvy;
 
-int cmp_eventos(Evento a, Evento b){
+int cmp_eventos(const void* a, const void* b){
     evento* e1 = (evento*) a;
     evento* e2 = (evento*) b;
 
@@ -189,7 +189,7 @@ int atinge_forma(Poligono poligono, Forma forma, tipoforma tipo){
 
     switch(tipo){
         case CIRCULO: {
-            double x, y, r;
+            double x, y;
             x = getXcirculo(forma);
             y = getYcirculo(forma);
             if(contem_ponto(poligono, x, y)) return 1;
