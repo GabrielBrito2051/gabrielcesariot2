@@ -59,7 +59,7 @@ int cmp_segmentos_arvore(Segmento a, Segmento b){
     return (ida<idb) ? -1 : (ida>idb ? 1:0);
 }
 
-Lista calcular_visibilidade(Lista listaSegmentos, double bx, double by){
+Poligono calcular_visibilidade(Lista listaSegmentos, double bx, double by){
     gbx = bx;
     gby = by;
 
@@ -115,6 +115,24 @@ Lista calcular_visibilidade(Lista listaSegmentos, double bx, double by){
     Arvore seg_ativos = criar_arvore(cmp_segmentos_arvore);
     Poligono poligono = criar_poligono();
 
+    atual = get_inicio_lista(listaSegmentos);
+    while(atual!=NULL){
+        double x1 = getX1linha(atual);
+        double x2 = getX2linha(atual);
+        double y1 = getY1linha(atual);
+        double y2 = getY2linha(atual);
+
+        double angulo1 = calcula_angulo(bx,by,x1,y1);
+        double angulo2 = calcula_angulo(bx,by,x2,y2);
+
+        double dif = angulo1 - angulo2;
+        if(dif<0) dif = -dif;
+        if(dif>PI){
+            insere_arvore(seg_ativos,atual);
+        }
+        atual = proximo_lista(listaSegmentos,atual);
+    }
+
     for(int k=0;k<num_eventos;k++){
         evento ev = e[k];
         gvx = ev.x;
@@ -142,9 +160,11 @@ Lista calcular_visibilidade(Lista listaSegmentos, double bx, double by){
                 vertice_visivel = 1;
             }
         }
-        if(vertice_visivel==1){
-            inserir_ponto(poligono,ev.x, ev.y);
-        }
+
+        double sombrax = 0;
+        double sombray = 0;
+        bool tem_sombra = false;
+
         if(seg_ante!=seg_depois){
             Segmento alvo = NULL;
             if(ev.tipo==fim){
@@ -164,16 +184,41 @@ Lista calcular_visibilidade(Lista listaSegmentos, double bx, double by){
                 double sx2 = getX2linha(alvo);
                 double sy2 = getY2linha(alvo);
                 double ix, iy;
-                double raiox = bx + (ev.x - bx) * 10000.0;
-                double raioy = by + (ev.y - by) * 10000.0;
+                double dirx = ev.x - bx;
+                double diry = ev.y - by;
+                double comprimento = calcula_distancia_pontos(bx, by, ev.x, ev.y);
+                if(comprimento>1e-9){
+                    dirx /= comprimento;
+                    diry /= comprimento;
+                }
+
+                double raiox = bx + dirx * 1000000.0;
+                double raioy = by + diry * 1000000.0;
 
                 bool colidiu = interseccao_segmentos(bx, by, raiox, raioy, sx1, sy1, sx2, sy2, &ix, &iy);
                 if(colidiu){
                     double du = distancia_raio(bx, by, ev.x, ev.y, sx1, sy1, sx2, sy2);
                     if(du>1.0 + 1e-9){
-                        inserir_ponto(poligono, ix, iy);
+                        sombrax = ix;
+                        sombray = iy;
+                        tem_sombra = true;
                     }
                 }
+            }
+        }
+        if(ev.tipo==inicio){
+            if(tem_sombra){
+                inserir_ponto(poligono, sombrax, sombray);
+            }
+            if(vertice_visivel){
+                inserir_ponto(poligono,ev.x,ev.y);
+            }
+        }else{
+            if(vertice_visivel){
+                inserir_ponto(poligono,ev.x,ev.y);
+            }
+            if(tem_sombra){
+                inserir_ponto(poligono,sombrax, sombray);
             }
         }
     }

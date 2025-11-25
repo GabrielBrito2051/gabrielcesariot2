@@ -15,7 +15,7 @@
 /// @param bx Coordenada x da bomba
 /// @param by Coordenada y da bomba
 /// @return Retorna uma nova lista contendo os pares ordenados que formam o poligono de visibilidade
-Lista calcular_visibilidade(Lista listaSegmentos, double bx, double by);
+Poligono calcular_visibilidade(Lista listaSegmentos, double bx, double by);
 
 /// @brief Verifica se uma determinada forma esta dentro da regiao de visibilidade
 /// @param poligono A lista de pares ordenados do poligono
