@@ -115,6 +115,9 @@ Poligono calcular_visibilidade(Lista listaSegmentos, double bx, double by){
     Arvore seg_ativos = criar_arvore(cmp_segmentos_arvore);
     Poligono poligono = criar_poligono();
 
+    gvx = bx + 100.0;
+    gvy = by;
+
     atual = get_inicio_lista(listaSegmentos);
     while(atual!=NULL){
         double x1 = getX1linha(atual);
