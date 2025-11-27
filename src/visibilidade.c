@@ -8,6 +8,7 @@
 #include "lista.h"
 #include "formas.h"
 #include "geometria.h"
+#include "mergesort.h"
 
 #define PI 3.14159265358979323846
 
@@ -27,7 +28,7 @@ typedef  void* Evento;
 
 static double gbx, gby, gvx, gvy;
 
-int cmp_eventos(const void* a, const void* b){
+int cmp_eventos(Evento* a, Evento* b){
     evento* e1 = (evento*) a;
     evento* e2 = (evento*) b;
 
