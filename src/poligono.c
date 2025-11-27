@@ -50,30 +50,34 @@ void free_ponto(Ponto p){
 }
 
 bool contem_ponto(Poligono p,double x, double y){
-    poligono* var = (poligono*) p;
-    if(getTAMANHOlista(var->pontos)<3) return 0;
+    poligono* poly = (poligono*) p;
+    if (poly == NULL || poly->pontos == NULL) return false;
+
     bool dentro = false;
-    void* atual = get_inicio_lista(var->pontos);
-    ponto* p1 = get_conteudo_lista(atual);
-    ponto* primeiro = p1;
-    while(atual!=NULL){
-        ponto* p2;
-        void* prox = proximo_lista(var->pontos, atual);
-        if(prox != NULL){
-            p2 = get_conteudo_lista(prox);
-        }else{
-            p2 = primeiro;
-        }
-        bool dentroy = (p1->y>y) != (p2->y>y);
-        if(dentroy){
-            double tracox = (p2->x) * (y-p1->y) / (p2->y - p1->y) + p1->x;
-            if(x<tracox){
-                dentro = !dentro;
-            }
-        }
-        p1 = p2;
-        atual = prox;
+    
+    void* no_atual = get_inicio_lista(poly->pontos);
+    if (no_atual == NULL) return false;
+
+    void* no_ultimo = get_inicio_lista(poly->pontos);
+    while (proximo_lista(poly->pontos, no_ultimo) != NULL) {
+        no_ultimo = proximo_lista(poly->pontos, no_ultimo);
     }
+
+    void* no_ante = no_ultimo;
+    no_atual = get_inicio_lista(poly->pontos);
+
+    while (no_atual != NULL) {
+        ponto* pi = (ponto*) get_conteudo_lista(no_atual);
+        ponto* pj = (ponto*) get_conteudo_lista(no_ante);
+
+        if (((pi->y > y) != (pj->y > y)) && (x < (pj->x - pi->x) * (y - pi->y) / (pj->y - pi->y) + pi->x)) {
+            dentro = !dentro;
+        }
+
+        no_ante = no_atual;
+        no_atual = proximo_lista(poly->pontos, no_atual);
+    }
+
     return dentro;
 }
 

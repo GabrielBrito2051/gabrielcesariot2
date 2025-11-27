@@ -11,17 +11,19 @@
 
 void printInfoAnteparos(FILE* txt, Forma f, tipoforma tipo, Forma anteparo){
     if(tipo==CIRCULO){
-        fprintf(txt,"O CIRCULO DE ID %d FOI TRANSFORMADO EM ANTEPARO",getIDcirculo(f));
+        fprintf(txt,"O CIRCULO DE ID %d FOI TRANSFORMADO EM ANTEPARO\n",getIDcirculo(f));
     }
     else if(tipo==RETANGULO){
-        fprintf(txt,"O RETANGULO DE ID %d FOI TRANSFORMADO EM ANTEPARO",getIDretangulo(f));
+        fprintf(txt,"O RETANGULO DE ID %d FOI TRANSFORMADO EM ANTEPARO\n",getIDretangulo(f));
     }
     else if(tipo==LINHA){
-        fprintf(txt,"A LINHA DE ID %d FOI TRANSFORMADA EM ANTEPARO",getIDlinha(f));
+        fprintf(txt,"A LINHA DE ID %d FOI TRANSFORMADA EM ANTEPARO\n",getIDlinha(f));
     }
     else if(tipo==TEXTO){
-        fprintf(txt,"O TEXTO DE ID %d FOI TRANFOMADO EM ANTEPARO",getIDtexto(f));
+        fprintf(txt,"O TEXTO DE ID %d FOI TRANFOMADO EM ANTEPARO\n",getIDtexto(f));
     }
+    fprintf(txt,"ID DO ANTEPARO CRIADO: %d\tCOORDENADAS DO ANTEPARO CRIADO: (%lf,%lf) -> (%lf,%lf)\n",getIDlinha(anteparo),getX1linha(anteparo),getY1linha(anteparo),getX2linha(anteparo),getY2linha(anteparo));
+
 }
 
 void printBombaDestruicao(FILE* txt, Forma f, tipoforma tipo){
@@ -56,7 +58,7 @@ void printBombaPintura(FILE* txt, Forma f, tipoforma tipo){
 
 void printBombaClonagem(FILE* txt, Forma original, tipoforma tipo, Forma clone){
     if(tipo==CIRCULO){
-        fprintf(txt,"O CIRCULO DE ID %D FOI CLONADO E GEROU O CIRCULO DE ID %d",getIDcirculo(original), getIDcirculo(clone));
+        fprintf(txt,"O CIRCULO DE ID %d FOI CLONADO E GEROU O CIRCULO DE ID %d",getIDcirculo(original), getIDcirculo(clone));
     }
     else if(tipo==RETANGULO){
         fprintf(txt,"O RETANGULO DE ID %d FOI CLONADO E GEROU O RETANGULO DE ID %d",getIDretangulo(original),getIDretangulo(clone));

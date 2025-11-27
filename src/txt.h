@@ -19,6 +19,7 @@
 /// @param txt Ponteiro para o arquivo txt
 /// @param f A forma que foi transformada em anteparo
 /// @param tipo O tipo da forma transformada em anteparo
+/// @param anteparo O anteparo criado
 void printInfoAnteparos(FILE* txt, Forma f, tipoforma tipo, Forma anteparo);
 
 /// @brief Impirme o id e o tipo da forma destruidas
