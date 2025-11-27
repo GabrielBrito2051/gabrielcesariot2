@@ -41,7 +41,7 @@ int main() {
     srand(time(NULL)); 
     printf("INICIANDO BATERIA DE TESTES - MODULO MERGESORT HIBRIDO\n");
 
-    TITULO("Vetor Pequeno (Forca QSort)");
+    TITULO("Vetor Pequeno (Forca InsertionSort)");
     
     size_t tam1 = 10;
     int v1[] = {45, 12, 89, 33, 21, 5, 99, 2, 15, 67};
@@ -51,7 +51,7 @@ int main() {
     merge_sort(v1, tam1, sizeof(int), cmp_int, 100);
     
     printf("   Depois:"); imprimir_vetor(v1, tam1);
-    ASSERT(verificar_ordenacao_int(v1, tam1), "Ordenacao correta via QSort.");
+    ASSERT(verificar_ordenacao_int(v1, tam1), "Ordenacao correta via InsertionSort.");
 
     TITULO("Vetor Grande (Forca Merge Sort Recursivo)");
     
