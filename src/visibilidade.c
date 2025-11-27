@@ -28,7 +28,7 @@ typedef  void* Evento;
 
 static double gbx, gby, gvx, gvy;
 
-int cmp_eventos(Evento* a, Evento* b){
+int cmp_eventos(const void* a, const void* b){
     evento* e1 = (evento*) a;
     evento* e2 = (evento*) b;
 
@@ -112,7 +112,7 @@ Poligono calcular_visibilidade(Lista listaSegmentos, double bx, double by){
         atual = proximo_lista(listaSegmentos, atual);
     }
 
-    qsort(e, num_eventos, sizeof(evento), cmp_eventos);
+    merge_sort(e, num_eventos, sizeof(evento), cmp_eventos, 10);
     Arvore seg_ativos = criar_arvore(cmp_segmentos_arvore);
     Poligono poligono = criar_poligono();
 
