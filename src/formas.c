@@ -97,7 +97,8 @@ void getSegmentoLinha(Forma f, tipoforma tipo, double* x1, double*y1, double *x2
         *y1 = getY1linha(f);
         *x2 = getX2linha(f);
         *y2 = getY2linha(f);
-    }else{
+    }
+    else if(tipo==TEXTO){
         double xt = getXtexto(f);
         double yt = getYtexto(f);
         char ancora = getAtexto(f);
@@ -121,5 +122,38 @@ void getSegmentoLinha(Forma f, tipoforma tipo, double* x1, double*y1, double *x2
             *x1 = xt - 5*tamanho;
             *x2 = xt + 5*tamanho;
         }
+    }
+    else if(tipo==CIRCULO){
+        *x1 = getXcirculo(f) + getRcirculo(f);
+        *y1 = getYcirculo(f) - getRcirculo(f);
+        *x2 = getXcirculo(f) - getRcirculo(f);
+        *y2 = getYcirculo(f) + getRcirculo(f);
+    }
+}
+
+void getSegmentoRetangulo(Forma f, tipoforma tipo, double* x1, double* y1, double* x2, double* y2, int func){
+    if(func==1){
+        *x1 = getXretangulo(f);
+        *y1 = getYretangulo(f);
+        *x2 = getXretangulo(f) + getWretangulo(f);
+        *y2 = getYretangulo(f);
+    }
+    else if(func==2){
+        *x1 = getXretangulo(f);
+        *y1 = getYretangulo(f) + getHretangulo(f);
+        *x2 = getXretangulo(f) + getWretangulo(f);
+        *y2 = getYretangulo(f) + getHretangulo(f);
+    }
+    else if(func==3){
+        *x1 = getXretangulo(f);
+        *y1 = getYretangulo(f);
+        *x2 = getXretangulo(f);
+        *y2 = getYretangulo(f) + getHretangulo(f);
+    }
+    else if(func==4){
+        *x1 = getXretangulo(f) + getWretangulo(f);
+        *y1 = getYretangulo(f);
+        *x2 = getXretangulo(f) + getWretangulo(f);
+        *y2 = getYretangulo(f) + getHretangulo(f);
     }
 }
