@@ -6,6 +6,7 @@
 #include "retangulo.h"
 #include "linha.h"
 #include "texto.h"
+#include "criarSvg.h"
 
 struct pacote{
     Forma forma;
@@ -59,7 +60,8 @@ void setFormaPacote(Pacote pac, Forma forma){
     pac->forma = forma;
 }
 
-int compara_forma(int id,Pacote pac){
+int compara_forma(int id, Forma p){
+    Pacote pac = (Pacote) p;
     Forma f = pac->forma;
     tipoforma tipo = pac->tipo;
    return ( getIDforma(f,tipo)==id) ? 1:0;
@@ -174,7 +176,7 @@ char* getCORBforma(Pacote pac){
 }
 
 void setCORBforma(Forma f, tipoforma tipo, char* corb){
-    if(tipo = CIRCULO){
+    if(tipo == CIRCULO){
         setCORBcirculo(f, corb);
     }
     else if(tipo==RETANGULO){
@@ -213,7 +215,7 @@ Pacote clonarForma(Forma f, tipoforma tipo, double dx, double dy, int* maior_id)
         x = getX1linha(f);
         y = getY1linha(f);
         double x2 = getX2linha(f), y2 = getY2linha(f);
-        corb = getCORlinha(f);
+        corb = getCORBlinha(f);
         clone = criar_linha(id, x+dx, y+dy, x2, y2, corb);
     }
     else if(tipo==TEXTO){
@@ -230,4 +232,19 @@ Pacote clonarForma(Forma f, tipoforma tipo, double dx, double dy, int* maior_id)
     pacote->tipo = tipo;
     pacote->forma = clone;
     return pacote;
+}
+
+void printSVGforma(FILE* svg, tipoforma tipo, Forma f, Estilo ts){
+    if(tipo==CIRCULO){
+        insere_circulo_svg(svg, f);
+    }
+    else if(tipo==RETANGULO){
+        insere_retangulo_svg(svg, f);
+    }
+    else if(tipo==LINHA){
+        insere_linha_svg(svg, f);
+    }
+    else{
+        insere_texto_svg(svg, f, ts);
+    }
 }

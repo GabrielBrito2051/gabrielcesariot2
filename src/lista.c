@@ -52,7 +52,7 @@ void insere_lista(Lista l, Forma forma){
     var->tamanho++;
 }
 
-Forma remove_lista(Lista l, int (*compara_formas)(int id, Pacote forma),int id){
+Forma remove_lista(Lista l, int (*compara_formas)(int id, Forma forma),int id){
     lista* var = (lista*)l;
     pont atual = var->inicio;
     while(atual!=NULL){
@@ -150,4 +150,16 @@ void destroiListaPoligono(Lista l){
         free(apagar);
     }
     free(var);
+}
+
+void printar_lista(Lista l, FILE* svg, Estilo ts){
+    lista* var = (lista*) l;
+    if(var==NULL){
+        return;
+    }
+    pont atual = var->inicio;
+    while(atual!=NULL){
+        printSVGforma(svg, getTipoForma(atual->forma), getFORMApacote(atual->forma), ts);
+        atual = atual->prox;
+    }
 }

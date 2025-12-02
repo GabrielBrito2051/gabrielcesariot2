@@ -17,6 +17,7 @@
 
 void le_geo(FILE* geo, FILE* svgGeo, Estilo ts, Lista listaFormas, int* nformas){
     char* linhaGeo = malloc(sizeof(char)*tamLinha);
+    if(linhaGeo==NULL) return;
     int id;
     *nformas = 0;
     double x, x2, y, y2, r, h, w;
@@ -29,7 +30,7 @@ void le_geo(FILE* geo, FILE* svgGeo, Estilo ts, Lista listaFormas, int* nformas)
             Pacote pac = criarPacote();
             sscanf(linhaGeo,"%*s %d %lf %lf %lf %7s %7s",&id, &x, &y, &r, corb, corp);
             Circulo c = criar_circulo(id, x, y ,r, corb, corp);
-            setTipoForma(pac, tipo[0]);
+            setTipoForma(pac, 'c');
             setFormaPacote(pac, c);
             insere_lista(listaFormas,pac);
             insere_circulo_svg(svgGeo, c);
@@ -39,7 +40,7 @@ void le_geo(FILE* geo, FILE* svgGeo, Estilo ts, Lista listaFormas, int* nformas)
             Pacote pac = criarPacote();
             sscanf(linhaGeo,"%*s %d %lf %lf %lf %lf %7s %7s", &id, &x, &y, &w, &h, corb, corp);
             Retangulo r = criar_retangulo(id, x, y, w, h, corb, corp);
-            setTipoForma(pac, tipo[0]);
+            setTipoForma(pac, 'r');
             setFormaPacote(pac, r);
             insere_lista(listaFormas,pac);
             insere_retangulo_svg(svgGeo,r);
@@ -49,7 +50,7 @@ void le_geo(FILE* geo, FILE* svgGeo, Estilo ts, Lista listaFormas, int* nformas)
             Pacote pac = criarPacote();
             sscanf(linhaGeo,"%*s %d %lf %lf %lf %lf %7s",&id, &x, &y, &x2, &y2, corb);
             Linha l = criar_linha(id, x, y, x2, y2, corb);
-            setTipoForma(pac, tipo[0]);
+            setTipoForma(pac, 'l');
             setFormaPacote(pac, l);
             insere_lista(listaFormas, pac);
             insere_linha_svg(svgGeo, l);
@@ -57,21 +58,21 @@ void le_geo(FILE* geo, FILE* svgGeo, Estilo ts, Lista listaFormas, int* nformas)
 
         else if(tipo[0]=='t'){
             Pacote pac = criarPacote();
-            sscanf(linhaGeo, "%*s %d %lf %lf %7s %7s %c %[^\n]", &id, &x, &y, corb, corp, &a, txto);
+            sscanf(linhaGeo, "%*s %d %lf %lf %7s %7s %c %1023[^\n]", &id, &x, &y, corb, corp, &a, txto);
             Texto t = criar_texto(id, x, y, corb, corp, a, txto);
-            setTipoForma(pac, tipo[0]);
+            setTipoForma(pac, 't');
             setFormaPacote(pac, t);
             insere_lista(listaFormas,pac);
             insere_texto_svg(svgGeo, t, ts);
         }
 
         else if(strcmp(tipo, "ts")==0){
-            sscanf(linhaGeo,"%*s %255s %1s %255s", font, weight, size);
+            sscanf(linhaGeo,"%*s %63s %1s %63s", font, weight, size);
             setFAMILY(ts, font);
             setWEIGHT(ts, weight);
             setSIZE(ts, size);
         }
-        if(id>*nformas){
+        if(id>*nformas && strcmp(tipo,"ts")!=0){
             *nformas = id;
         }
     }

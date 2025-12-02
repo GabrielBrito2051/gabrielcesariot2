@@ -30,7 +30,7 @@ void insere_lista(Lista l, Forma forma);
 /// @param compara_formas Ponteiro para a funcao que compara elementos de um tipo especifico
 /// @param id O id da forma que sera removida
 ///@return Retorna um ponteiro para a forma que foi removida
-Forma remove_lista(Lista l, int(*compara_formas)(int id, Pacote forma),int id);
+Forma remove_lista(Lista l, int(*compara_formas)(int id, Forma forma),int id);
 
 /// @brief Pega o primeiro elemento da lista
 /// @param l A lista
@@ -67,5 +67,11 @@ void destroiListaDeFormas(Lista l);
 /// @brief Libera a memoria da lista de pontos do poligono
 /// @param l A lista de pontos
 void destroiListaPoligono(Lista l);
+
+/// @brief Imprime as formas de uma lista no arquivo svg
+/// @param l A lista
+/// @param svg Ponteiro para o arquivo svg
+/// @param ts O estilo do texto
+void printar_lista(Lista l, FILE* svg, Estilo ts);
 
 #endif

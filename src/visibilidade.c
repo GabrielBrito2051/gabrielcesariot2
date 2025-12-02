@@ -28,6 +28,16 @@ typedef  void* Evento;
 
 static double gbx, gby, gvx, gvy;
 
+void resetarAnteparos(Lista anteparos){
+    void* no = get_inicio_lista(anteparos);
+    while(no!=NULL){
+        Segmento pac = get_conteudo_lista(no);
+        Forma s = getFORMApacote(pac);
+        setAtivo(s, false);
+        no = proximo_lista(anteparos, no);
+    }
+}
+
 int cmp_eventos(const void* a, const void* b){
     evento* e1 = (evento*) a;
     evento* e2 = (evento*) b;
@@ -60,7 +70,7 @@ int cmp_segmentos_arvore(Segmento a, Segmento b){
     return (ida<idb) ? -1 : (ida>idb ? 1:0);
 }
 
-Poligono calcular_visibilidade(Lista listaSegmentos, double bx, double by){
+Poligono calcular_visibilidade(Lista listaSegmentos, double bx, double by, char flag, int insertionParam){
     gbx = bx;
     gby = by;
 
@@ -112,7 +122,11 @@ Poligono calcular_visibilidade(Lista listaSegmentos, double bx, double by){
         atual = proximo_lista(listaSegmentos, atual);
     }
 
-    merge_sort(e, num_eventos, sizeof(evento), cmp_eventos, 10);
+    if(flag=='m'){
+        merge_sort(e, num_eventos, sizeof(evento), cmp_eventos, insertionParam);
+    }else{
+        qsort(e,num_eventos, sizeof(evento),cmp_eventos);
+    }
     Arvore seg_ativos = criar_arvore(cmp_segmentos_arvore);
     Poligono poligono = criar_poligono();
 
@@ -137,6 +151,8 @@ Poligono calcular_visibilidade(Lista listaSegmentos, double bx, double by){
         atual = proximo_lista(listaSegmentos,atual);
     }
 
+    resetarAnteparos(listaSegmentos);
+
     for(int k=0;k<num_eventos;k++){
         evento ev = e[k];
         gvx = ev.x;
@@ -144,12 +160,20 @@ Poligono calcular_visibilidade(Lista listaSegmentos, double bx, double by){
 
         Segmento seg_ante = busca_mais_proximo(seg_ativos);
 
+        if(seg_ante!=NULL){
+            setAtivo(seg_ante,true);
+        }
+
         if(ev.tipo == inicio){
             insere_arvore(seg_ativos, ev.seg);
         }else{
             remove_arvore(seg_ativos, ev.seg);
         }
         Segmento seg_depois = busca_mais_proximo(seg_ativos);
+        if(seg_depois!=NULL){
+            setAtivo(seg_depois,true);
+        }
+
         int vertice_visivel = 0;
         if(seg_ante==NULL){
             vertice_visivel = 1;

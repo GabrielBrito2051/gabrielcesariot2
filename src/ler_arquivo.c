@@ -8,7 +8,7 @@
 arquivo abre_arquivo_escrita(char* nome){
     arquivo arq = fopen(nome, "w");
     if(arq==NULL){
-        printf("Erro ao abrir arquivo %s",nome);
+        printf("Erro ao abrir arquivo %s\n",nome);
         exit(1);
     }
     return ((FILE*)arq);
@@ -17,7 +17,7 @@ arquivo abre_arquivo_escrita(char* nome){
 arquivo abre_arquivo_leitura(char* nome){
     arquivo arq = fopen(nome, "r");
     if(arq==NULL){
-        printf("Erro ao abrir o arquivo %s",nome);
+        printf("Erro ao abrir o arquivo %s\n",nome);
         exit(1);
     }
     return ((FILE*)arq);

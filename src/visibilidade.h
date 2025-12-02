@@ -14,8 +14,10 @@
 /// @param listaSegmentos Lista contendo todos os anteparos existentes
 /// @param bx Coordenada x da bomba
 /// @param by Coordenada y da bomba
+/// @param flag Flag do comando que indica se sera utilizado o qsort ou o mergesort para ordenar na arvore
+/// @param i Flag do comando que indica o tamanho maximo que o subvetor deve ter para comecar a utilizar o insertion sort
 /// @return Retorna uma nova lista contendo os pares ordenados que formam o poligono de visibilidade
-Poligono calcular_visibilidade(Lista listaSegmentos, double bx, double by);
+Poligono calcular_visibilidade(Lista listaSegmentos, double bx, double by, char flag, int i);
 
 /// @brief Verifica se uma determinada forma esta dentro da regiao de visibilidade
 /// @param poligono A lista de pares ordenados do poligono

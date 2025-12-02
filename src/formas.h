@@ -55,9 +55,9 @@ void setFormaPacote(Pacote pac, Forma forma);
 
 /// @brief Compara uma forma com um id desejado
 /// @param id O id que sera comparado com a forma
-/// @param pac O pacote da forma
+/// @param p O pacote da forma
 /// @return Retorna 1 se a forma tiver o id inserido e 0 caso contrario
-int compara_forma(int id, Pacote pac);
+int compara_forma(int id, Forma p);
 
 /// @brief Libera a memoria de uma forma dentro do pacote
 /// @param pac O pacote
@@ -102,5 +102,12 @@ void setCORBforma(Forma f, tipoforma tipo, char* corb);
 /// @param dy A distancia que o clone sera deslocado no eixo y
 /// @param maior_id Valor passado por referencia que indica a quantidade total de formas no chao inicial
 Pacote clonarForma(Forma f, tipoforma tipo, double dx, double dy, int* maior_id);
+
+/// @brief Imprime uma forma generica no arquivo svg
+/// @param svg Ponteiro para o arquivo svg
+/// @param tipo O tipo da forma
+/// @param f A forma
+/// @param ts O estilo do texto
+void printSVGforma(FILE* svg, tipoforma tipo, Forma f, Estilo ts);
 
 #endif

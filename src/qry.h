@@ -31,7 +31,7 @@
 /// @param maior_id O maior id das formas
 /// @param ts Estilo de texto
 /// @param flag Flag do comando que indica se sera utilizado o qsort ou o mergesort para ordenar na arvore
-/// @param i Flag do comando que indica o tamanho maximo que o subvetor deve ter para comecar a utilizar o insertion sort
-void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas,Lista anteparos, int* maoir_id, Estilo ts, char flag, int i);
+/// @param isortParam Flag do comando que indica o tamanho maximo que o subvetor deve ter para comecar a utilizar o insertion sort
+void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas,Lista anteparos, int* maoir_id, char flag, int isortParam);
 
 #endif
