@@ -77,12 +77,30 @@ void getSegmentoLinha(Forma f, tipoforma tipo, double* x1, double*y1, double *x2
 
 /// @brief Obtem as coordenadas do segmento de linha para o retangulo
 /// @param f A forma
-/// @param tipo O tipo da forma
 /// @param x1 Ponteiro para armazenar a coordenada x1 da forma
 /// @param y1 Ponteiro para armazenar a coordenada y1 da forma
 /// @param x2 Ponteiro para armazenar a coordenada x2 da forma
 /// @param y2 Ponteiro para armazenar a coordenada y2 da forma
 /// @param func Variavel extra para indicar qual lado do retangulo sera transformado em segmento
-void getSegmentoRetangulo(Forma f, tipoforma tipo, double* x1, double* y1, double* x2, double* y2, int func);
+void getSegmentoRetangulo(Forma f, double* x1, double* y1, double* x2, double* y2, int func);
+
+/// @brief Pega a cor de borda de uma forma generica
+/// @param pac O pacote contendo a forma
+/// @return Retorna o ponteiro para a string contendo a cor de borda
+char* getCORBforma(Pacote pac);
+
+/// @brief Define a cor de borda de uma forma generica
+/// @param f A forma
+/// @param tipo O tipo da forma
+/// @param corb Ponteiro para a string contendo a cor de borda
+void setCORBforma(Forma f, tipoforma tipo, char* corb);
+
+/// @brief Faz a clonagem de um forma
+/// @param f A forma que sera clonada
+/// @param tipo O tipo da forma
+/// @param dx A distancia que o clone sera deslocado no eixo x
+/// @param dy A distancia que o clone sera deslocado no eixo y
+/// @param maior_id Valor passado por referencia que indica a quantidade total de formas no chao inicial
+Pacote clonarForma(Forma f, tipoforma tipo, double dx, double dy, int* maior_id);
 
 #endif

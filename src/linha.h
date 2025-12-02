@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 typedef void* Linha;
 
@@ -92,5 +93,14 @@ void freeCORBlinha(Linha l);
 /// @brief Libera a memoria da cor de preenchimento da linha
 /// @param l A linha
 void freeCORPlinha(Linha l);
+
+/// @brief Define se o segmento esta ativo ou não
+/// @param l O segmento
+/// @param ativo True or false
+void setAtivo(Linha l, bool ativo);
+
+/// @brief Obtem se o segmento esta ativo ou nao
+/// @param l O segmento
+bool getAtivo(Linha l);
 
 #endif

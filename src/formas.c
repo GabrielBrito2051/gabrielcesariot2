@@ -131,7 +131,7 @@ void getSegmentoLinha(Forma f, tipoforma tipo, double* x1, double*y1, double *x2
     }
 }
 
-void getSegmentoRetangulo(Forma f, tipoforma tipo, double* x1, double* y1, double* x2, double* y2, int func){
+void getSegmentoRetangulo(Forma f, double* x1, double* y1, double* x2, double* y2, int func){
     if(func==1){
         *x1 = getXretangulo(f);
         *y1 = getYretangulo(f);
@@ -156,4 +156,78 @@ void getSegmentoRetangulo(Forma f, tipoforma tipo, double* x1, double* y1, doubl
         *x2 = getXretangulo(f) + getWretangulo(f);
         *y2 = getYretangulo(f) + getHretangulo(f);
     }
+}
+
+char* getCORBforma(Pacote pac){
+    Pacote var = (Pacote) pac;
+    tipoforma tipo = var->tipo;
+    if(tipo==CIRCULO){
+        return getCORBcirculo(var->forma);
+    }
+    else if(tipo==LINHA){
+        return getCORBlinha(var->forma);
+    }
+    else if(tipo==TEXTO){
+        return getCORBtexto(var->forma);
+    }
+    return NULL;
+}
+
+void setCORBforma(Forma f, tipoforma tipo, char* corb){
+    if(tipo = CIRCULO){
+        setCORBcirculo(f, corb);
+    }
+    else if(tipo==RETANGULO){
+        setCORBretangulo(f, corb);
+    }
+    else if(tipo==LINHA){
+        setCORBlinha(f, corb);
+    }
+    else if(tipo==TEXTO){
+        setCORBtexto(f,corb);
+    }
+}
+
+Pacote clonarForma(Forma f, tipoforma tipo, double dx, double dy, int* maior_id){
+    int id = *maior_id + 1;
+    double x, y;
+    char* corb, *corp;
+    Forma clone;
+    if(tipo==CIRCULO){
+        x = getXcirculo(f);
+        y = getYcirculo(f);
+        double r = getRcirculo(f);
+        corb = getCORBcirculo(f);
+        corp = getCORPcirculo(f);
+        clone = criar_circulo(id, x+dx, y+dy, r, corb, corp);
+    }
+    else if(tipo==RETANGULO){
+        x = getXretangulo(f);
+        y = getYretangulo(f);
+        double w = getWretangulo(f), h = getHretangulo(f);
+        corb = getCORBretangulo(f);
+        corp = getCORPretangulo(f);
+        clone = criar_retangulo(id, x+dx, y+dy, w, h, corb, corp);
+    }
+    else if(tipo==LINHA){
+        x = getX1linha(f);
+        y = getY1linha(f);
+        double x2 = getX2linha(f), y2 = getY2linha(f);
+        corb = getCORlinha(f);
+        clone = criar_linha(id, x+dx, y+dy, x2, y2, corb);
+    }
+    else if(tipo==TEXTO){
+        x = getXtexto(f);
+        y = getYtexto(f);
+        corb = getCORBtexto(f);
+        corp = getCORPtexto(f);
+        char a = getAtexto(f);
+        char* txto = getTXTOtexto(f);
+        clone = criar_texto(id, x+dx, y+dy, corb, corp, a, txto);
+    }
+    *maior_id += 1;
+    Pacote pacote = criarPacote();
+    pacote->tipo = tipo;
+    pacote->forma = clone;
+    return pacote;
 }

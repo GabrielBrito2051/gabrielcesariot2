@@ -53,6 +53,13 @@ Forma get_conteudo_lista(void* no);
 /// @return Retorna o ponteiro para o proximo item
 Forma proximo_lista(Lista l, Forma f);
 
+/// @brief Busca uma forma pelo seu id
+/// @param l A lista que sera buscada
+/// @param compara_elemento Funcao que compara formas por id
+/// @param i O id que sera comparado
+/// @return Retorna a forma com o id desejado, se nao encontrar, retorna NULL
+Forma busca_conteudo(Lista l, int (*compara_elemento)(int i, void* elemento), int i);
+
 /// @brief Libera a memoria de uma lista
 /// @param l A lista
 void destroiListaDeFormas(Lista l);

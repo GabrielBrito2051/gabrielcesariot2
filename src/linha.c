@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "linha.h"
 
 typedef struct{
     int i; 
     double x1, y1, x2, y2;
     char *corb, *corcompl;
+    bool ativo;
 }linha;
 
 void setCORCOMPLlinha(Linha l){
@@ -27,6 +29,7 @@ Linha criar_linha(int i, double x1, double y1, double  x2, double y2, char* corb
     l->y1 = y1;
     l->x2 = x2;
     l->y2 = y2;
+    l->ativo = false;
 
     l->corb = (char*)malloc(strlen(corb)+1);
     if (l->corb==NULL){
@@ -102,4 +105,13 @@ void freeCORBlinha(Linha l){
 void freeCORPlinha(Linha l){
     linha* var = (linha*)l;
     free(var->corcompl);
+}
+
+void setAtivo(Linha l, bool ativo){
+    linha* var = (linha*)l;
+    var->ativo = ativo; 
+}
+
+bool getAtivo(Linha l){
+    return ((linha*)l)->ativo;
 }

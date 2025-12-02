@@ -110,6 +110,18 @@ Forma proximo_lista(Lista l, Forma f){
     return atual->prox->forma;
 }
 
+Forma busca_conteudo(Lista l,int (*compara_elementos)(int i, void* elemento), int i){
+    lista* var = (lista*)l;
+    pont atual = var->inicio;
+    while(atual!=NULL){
+        if(compara_elementos(i,atual->forma)==1){
+            return atual->forma;
+        }
+        atual = atual->prox;
+    }
+    return NULL;
+}
+
 void destroiListaDeFormas(Lista l){
     lista* var = (lista*)l;
     if(var==NULL){

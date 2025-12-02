@@ -17,7 +17,8 @@
 
 void le_geo(FILE* geo, FILE* svgGeo, Estilo ts, Lista listaFormas, int* nformas){
     char* linhaGeo = malloc(sizeof(char)*tamLinha);
-    int id, extra=0;
+    int id;
+    *nformas = 0;
     double x, x2, y, y2, r, h, w;
     char corb[max_cor], corp[max_cor];
     char font[max_font], size[max_font], weight[max_font];
@@ -70,11 +71,10 @@ void le_geo(FILE* geo, FILE* svgGeo, Estilo ts, Lista listaFormas, int* nformas)
             setWEIGHT(ts, weight);
             setSIZE(ts, size);
         }
-        if(extra==0){
-            extra = id;
+        if(id>*nformas){
+            *nformas = id;
         }
     }
 
-    *nformas = getTAMANHOlista(listaFormas)+extra;
     free(linhaGeo);
 }
