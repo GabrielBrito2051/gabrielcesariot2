@@ -52,7 +52,7 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
                     printInfoAnteparos(txt, getFORMApacote(f),getTipoForma(f),anovo);
                 }
             }
-        }
+        } 
 
         else if(strcmp(comando, "d")==0){
             sscanf(linhaQry,"%*s %lf %lf %s",&x,&y,sfx);
@@ -76,7 +76,7 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
                 Linha l = get_conteudo_lista(anteparo);
                 int id = getIDlinha(l);
                 if(getAtivo(l)){
-                    Linha removida = remove_lista(anteparos, compara_forma, id);
+                    Linha removida = remove_lista(anteparos, compara_linha, id);
                     fprintf(txt,"----- ANTEPAROS -----\n");
                     printBombaDestruicao(txt, removida, LINHA);
                     freeCORBlinha(removida);

@@ -115,3 +115,8 @@ void setAtivo(Linha l, bool ativo){
 bool getAtivo(Linha l){
     return ((linha*)l)->ativo;
 }
+
+int compara_linha(int id,Linha l){
+    linha* var = (linha*)l;
+    return (var->i==id) ? 1:0;
+}

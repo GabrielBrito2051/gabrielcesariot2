@@ -163,3 +163,19 @@ void printar_lista(Lista l, FILE* svg, Estilo ts){
         atual = atual->prox;
     }
 }
+
+void destroiListaDeAnteparos(Lista l){
+    lista* var = (lista*)l;
+    if(var==NULL) return;
+    pont atual = var->inicio;
+    pont apagar;
+    while(atual!=NULL){
+        apagar = atual;
+        atual = atual->prox;
+        freeCORBlinha(apagar->forma);
+        freeCORPlinha(apagar->forma);
+        free(apagar->forma);
+        free(apagar);
+    }
+    free(var);
+}

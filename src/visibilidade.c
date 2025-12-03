@@ -31,8 +31,7 @@ static double gbx, gby, gvx, gvy;
 void resetarAnteparos(Lista anteparos){
     void* no = get_inicio_lista(anteparos);
     while(no!=NULL){
-        Segmento pac = get_conteudo_lista(no);
-        Forma s = getFORMApacote(pac);
+        Segmento s = get_conteudo_lista(no);
         setAtivo(s, false);
         no = proximo_lista(anteparos, no);
     }

@@ -18,7 +18,7 @@
 void le_geo(FILE* geo, FILE* svgGeo, Estilo ts, Lista listaFormas, int* nformas){
     char* linhaGeo = malloc(sizeof(char)*tamLinha);
     if(linhaGeo==NULL) return;
-    int id;
+    int id = 0;
     *nformas = 0;
     double x, x2, y, y2, r, h, w;
     char corb[max_cor], corp[max_cor];
@@ -56,7 +56,7 @@ void le_geo(FILE* geo, FILE* svgGeo, Estilo ts, Lista listaFormas, int* nformas)
             insere_linha_svg(svgGeo, l);
         }
 
-        else if(tipo[0]=='t'){
+        else if(strcmp(tipo,"t")==0){
             Pacote pac = criarPacote();
             sscanf(linhaGeo, "%*s %d %lf %lf %7s %7s %c %1023[^\n]", &id, &x, &y, corb, corp, &a, txto);
             Texto t = criar_texto(id, x, y, corb, corp, a, txto);

@@ -103,4 +103,10 @@ void setAtivo(Linha l, bool ativo);
 /// @param l O segmento
 bool getAtivo(Linha l);
 
+/// @brief Compara uma linha com um id fornecido
+/// @param id O id fornecido
+/// @param l A linha
+/// @return Retorna 1 se a linha tiver o id fornecido e 0 caso contrario
+int compara_linha(int id, Linha l);
+
 #endif
