@@ -68,12 +68,12 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
                 tipoforma tipo = getTipoForma(pac);
                 Forma f = getFORMApacote(pac);
                 int id = getIDforma(f, tipo);
+                no = proximo_lista(formas, pac);
                 if(atinge_forma(explosao, f, tipo)==1){
                     Pacote removido = remove_lista(formas, compara_forma, id);
                     printBombaDestruicao(txt, f, tipo);
                     freePacote(removido);
                 }
-                no = proximo_lista(formas, pac);
             }
             Linha anteparo = get_inicio_lista(anteparos);
             while(anteparo!=NULL){

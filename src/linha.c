@@ -43,7 +43,7 @@ Linha criar_linha(int i, double x1, double y1, double  x2, double y2, char* corb
         printf("Erro ao alocar memoria para a cor complementar da linha");
         exit(1);
     }
-    setCORCOMPLlinha(l);
+    strcpy(l->corcompl,l->corb);
 
     return ((Linha*)l);
 }
