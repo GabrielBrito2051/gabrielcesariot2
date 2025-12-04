@@ -98,7 +98,7 @@ int main(int argc, char* argv[])
 
     Lista formas = criar_lista();
     Lista anteparos = criar_lista();
-    Estilo ts = criar_estilo("sans", "n", "12");
+    Estilo ts = criar_estilo("sans", "n", "12pt");
     int maior_id = 0;
 
     startSVG(svgGeo);
@@ -118,7 +118,7 @@ int main(int argc, char* argv[])
 
     destroiListaDeFormas(formas);
     destroiListaDeAnteparos(anteparos);
-    free(ts);
+    freeEstilo(ts);
 
     return 0;
 }

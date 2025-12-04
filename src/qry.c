@@ -19,7 +19,11 @@
 #define tam_linha 256
 
 void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista anteparos, int* maior_id, char flag, int isortParam){
-    char* linhaQry = malloc(sizeof(tam_linha));
+    char* linhaQry = malloc(sizeof(char) * tam_linha);
+    if(linhaQry==NULL){
+        printf("Erro ao alocar memoria para a linha do Qry\n");
+        return;
+    }
     char comando[4], sfx[64], cor[8];
     int i, j, novo_id = *maior_id;
     char orient;
