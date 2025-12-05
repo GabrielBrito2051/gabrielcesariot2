@@ -26,6 +26,10 @@ void insere_texto_svg(FILE* svg, Texto t, Estilo ts){
 fprintf(svg, "<text id=\"%d\" x=\"%lf\" y=\"%lf\" style=\"font-family: '%s'; font-size: %spx; font-weight: %s; fill: %s;\"> %s </text>\n",getIDtexto(t), getXtexto(t),  getYtexto(t), getFAMILY(ts),getSIZE(ts),getWEIGHT(ts), getCORPtexto(t),  getTXTOtexto(t));
 }
 
+void insere_bomba_svg(FILE* svg, double x, double y){
+    fprintf(svg,"<circle cx=\"%lf\" cy=\"%lf\" r=\"5\" fill=\"purple\" stroke=\"purple\" stroke-width=\"2\"/>",x, y);
+}
+
 void fechasvg(FILE* svg){
     fprintf(svg,"</svg>\n");
 }

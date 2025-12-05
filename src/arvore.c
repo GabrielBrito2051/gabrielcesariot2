@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "arvore.h"
+#include "linha.h"
+#include "geometria.h"
 
 typedef struct ELEMENTO{
     Segmento seg;
@@ -14,6 +16,10 @@ typedef struct{
     pont raiz;
     comparador cmp;
 }arvore;
+
+static double menor_distg;
+static Segmento vg;
+static double b_x, b_y, v_x, v_y;
 
 pont criar_no(Segmento seg){
     pont novo = (pont)malloc(sizeof(elemento));
@@ -87,6 +93,54 @@ void liberar_recursivo(pont raiz){
     }
 }
 
+void print_no_recursivo(pont no) {
+    if (no == NULL) return; 
+    // Se usar sentinela: if (no == NULL || no == T->nil) return;
+
+    print_no_recursivo(no->esq); // 1. Visita filhos menores (mais proximos)
+
+    // 2. Imprime o nó atual
+    // Assumindo que no->seg é o segmento armazenado
+    // Ajuste 'getIDlinha' para o nome da sua função de pegar ID
+    if (no->seg != NULL) {
+        int id = getIDlinha(no->seg); 
+        printf("[%d] ", id); 
+    }
+
+    print_no_recursivo(no->dir); // 3. Visita filhos maiores (mais distantes)
+}
+
+void print_arvore_debug(Arvore a) {
+    arvore* arv = (arvore*)a;
+    if (arv == NULL || arv->raiz == NULL) {
+        printf("  (Arvore Vazia)\n");
+        return;
+    }
+    
+    printf("  ARVORE ATIVA: ");
+    print_no_recursivo(arv->raiz);
+    printf("\n");
+}
+
+void visita_e_compara(pont raiz){
+    if(raiz==NULL)return;
+    Segmento s = raiz->seg;
+    if(s!=NULL){
+        double x1 = getX1linha(s);
+        double y1 = getY1linha(s);
+        double x2 = getX2linha(s);
+        double y2 = getY2linha(s);
+
+        double dist = distancia_raio(b_x, b_y, v_x, v_y, x1, y1, x2, y2);
+        if(dist<menor_distg){
+            menor_distg = dist;
+            vg = s;
+        }
+    }
+    visita_e_compara(raiz->esq);
+    visita_e_compara(raiz->dir);
+}
+
 Arvore criar_arvore(comparador f){
     arvore* a = malloc(sizeof(arvore));
     if(a==NULL){
@@ -111,14 +165,24 @@ Segmento remove_arvore(Arvore a, Segmento seg){
     return seg_removido;
 }
 
-Segmento busca_mais_proximo(Arvore a){
+Segmento busca_mais_proximo(Arvore a, double bx, double by, double vx, double vy){
     if(a==NULL) return NULL;
     arvore* arv = (arvore*)a;
     if(arv->raiz==NULL) return NULL;
 
-    pont menor = menor_no(arv->raiz);
-    return menor->seg;
+    menor_distg = 99999999.0;
+    vg = NULL;
+    b_x = bx;
+    b_y = by;
+    v_x = vx;
+    v_y = vy;
+
+    visita_e_compara(arv->raiz);
+
+    return vg;
 }
+
+
 
 void destroi_arvore(Arvore a){
     arvore* arv = (arvore*)a;

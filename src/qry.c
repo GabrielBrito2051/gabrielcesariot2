@@ -18,6 +18,81 @@
 
 #define tam_linha 256
 
+void bounding_box_poligono(Lista anteparos, Lista formas, double bx, double by){
+    double minX = bx, minY = by;
+    double maxX = bx, maxY = by;
+
+    if(getTAMANHOlista(formas)>0){
+        Forma no = get_inicio_lista(formas);
+        while(no!=NULL){
+            Pacote pac = get_conteudo_lista(no);
+            Forma f = getFORMApacote(pac);
+            tipoforma tipo = getTipoForma(pac);
+
+            if (tipo == CIRCULO) {
+                double cx = getXcirculo(f); double cy = getYcirculo(f); double r = getRcirculo(f);
+                if (cx - r < minX) minX = cx - r;
+                if (cx + r > maxX) maxX = cx + r;
+                if (cy - r < minY) minY = cy - r;
+                if (cy + r > maxY) maxY = cy + r;
+            } else if (tipo == RETANGULO) {
+                double x = getXretangulo(f); double y = getYretangulo(f);
+                double w = getWretangulo(f); double h = getHretangulo(f);
+                if (x < minX) minX = x;
+                if (x + w > maxX) maxX = x + w;
+                if (y < minY) minY = y;
+                if (y + h > maxY) maxY = y + h;
+            } else if (tipo == LINHA) {
+                double x1 = getX1linha(f); double y1 = getY1linha(f);
+                double x2 = getX2linha(f); double y2 = getY2linha(f);
+                if (x1 < minX) minX = x1;
+                 if (x2 < minX) minX = x2;
+                if (x1 > maxX) maxX = x1;
+                if (x2 > maxX) maxX = x2;
+                if (y1 < minY) minY = y1;
+                if (y2 < minY) minY = y2;
+                if (y1 > maxY) maxY = y1; 
+                if (y2 > maxY) maxY = y2;
+            } else if(tipo==TEXTO){
+                double x1, y1, x2, y2;
+                getSegmentoLinha(f, TEXTO, &x1, &y1, &x2, &y2);
+                if (x1 < minX) minX = x1; 
+                if (x2 < minX) minX = x2;
+                if (x1 > maxX) maxX = x1; 
+                if (x2 > maxX) maxX = x2;
+                if (y1 < minY) minY = y1;
+                if (y2 < minY) minY = y2;
+                if (y1 > maxY) maxY = y1; 
+                if (y2 > maxY) maxY = y2;
+            }
+            no = proximo_lista(formas, no);
+        }
+    double margem = 50.0;
+    minX -= margem; minY -= margem;
+    maxX += margem; maxY += margem;
+
+    Linha l1 = criar_linha(-1, minX, minY, maxX, minY, "black"); 
+    setAtivo(l1, false);
+    insere_lista(anteparos, l1);
+
+    Linha l2_cima = criar_linha(-2, maxX, minY, maxX, by, "black");
+    setAtivo(l2_cima, false);
+    insere_lista(anteparos, l2_cima);
+
+    Linha l2_baixo = criar_linha(-3,maxX, by, maxX, maxY, "black");
+    setAtivo(l2_baixo, false);
+    insere_lista(anteparos, l2_baixo);
+
+    Linha l3 = criar_linha(-4, maxX, maxY, minX, maxY, "black");
+    setAtivo(l3, false);
+    insere_lista(anteparos, l3);
+
+    Linha l4 = criar_linha(-5, minX, maxY, minX, minY, "black");
+    setAtivo(l4, false);
+    insere_lista(anteparos, l4);
+    }
+}
+
 void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista anteparos, int* maior_id, char flag, int isortParam){
     char* linhaQry = malloc(sizeof(char) * tam_linha);
     if(linhaQry==NULL){
@@ -55,14 +130,20 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
                     insere_lista(anteparos, anovo);
                     printInfoAnteparos(txt, getFORMApacote(f),getTipoForma(f),anovo);
                 }
+                Pacote removido = remove_lista(formas, compara_forma, ini);
+                freePacote(removido);
             }
         } 
 
         else if(strcmp(comando, "d")==0){
             sscanf(linhaQry,"%*s %lf %lf %s",&x,&y,sfx);
+            fprintf(txt,"BOMBA DE DESTRUICAO JOGADA NA COORDENADA (%lf,%lf)\n",x, y);
+            insere_bomba_svg(svgQry, x, y);
+            bounding_box_poligono(anteparos, formas, x, y);
             Poligono explosao = calcular_visibilidade(anteparos, x, y, flag, isortParam);
             final = explosao;
             Forma no = get_inicio_lista(formas);
+            fprintf(txt,"-----FORMAS-----\n");
             while(no!=NULL){
                 Pacote pac = get_conteudo_lista(no);
                 tipoforma tipo = getTipoForma(pac);
@@ -76,12 +157,12 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
                 }
             }
             Linha anteparo = get_inicio_lista(anteparos);
+            fprintf(txt,"----- ANTEPAROS -----\n");
             while(anteparo!=NULL){
                 Linha l = get_conteudo_lista(anteparo);
                 int id = getIDlinha(l);
-                if(getAtivo(l)){
+                if(getAtivo(l) && id>0){
                     Linha removida = remove_lista(anteparos, compara_linha, id);
-                    fprintf(txt,"----- ANTEPAROS -----\n");
                     printBombaDestruicao(txt, removida, LINHA);
                     freeCORBlinha(removida);
                     freeCORPlinha(removida);
@@ -93,9 +174,12 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
 
         else if(strcmp(comando,"p")==0){
             sscanf(linhaQry, "%*s %lf %lf %s %s",&x,&y,cor,sfx);
+            fprintf(txt,"BOMBA DE PINTURA JOGADA NA COORDENADA (%lf,%lf)\n",x, y);
+            bounding_box_poligono(anteparos, formas, x, y);
             Poligono pintura = calcular_visibilidade(anteparos, x, y, flag, isortParam);
             final = pintura;
             Forma no = get_inicio_lista(formas);
+            fprintf(txt,"-----FORMAS-----\n");
             while(no!=NULL){
                 Pacote pac = get_conteudo_lista(no);
                 tipoforma tipo = getTipoForma(pac);
@@ -107,11 +191,12 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
                 no = proximo_lista(formas, no);
             }
             Linha anteparo = get_inicio_lista(anteparos);
+            fprintf(txt,"----- ANEPAROS -----\n");
             while(anteparo!=NULL){
                 Linha l =get_conteudo_lista(anteparo);
-                if(getAtivo(l)){
+                int id = getIDlinha(l);
+                if(getAtivo(l) && id>0){
                     setCORBlinha(l, cor);
-                    fprintf(txt,"----- ANEPAROS -----\n");
                     printBombaPintura(txt, l, LINHA);
                 }
                 anteparo = proximo_lista(anteparos, anteparo);
@@ -120,9 +205,12 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
 
         else if(strcmp(comando,"cln")==0){
             sscanf(linhaQry, "%*s %lf %lf %lf %lf %s", &x, &y, &dx, &dy, sfx);
+            fprintf(txt,"BOMBA DE CLONAGEM JOGADA NA COORDENADA (%lf,%lf)\n",x, y);
+            bounding_box_poligono(anteparos, formas, x, y);
             Poligono clonagem = calcular_visibilidade(anteparos, x, y, flag, isortParam);
             final = clonagem;
             Forma no = get_inicio_lista(formas);
+            fprintf(txt,"-----FORMAS-----\n");
             while(no!=NULL){
                 Pacote pac = get_conteudo_lista(no);
                 Forma f = getFORMApacote(pac);
@@ -135,9 +223,11 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
                 no = proximo_lista(formas, no);
             }
             Linha anteparo = get_inicio_lista(anteparos);
+            fprintf(txt,"-----ANTEPAROS-----");
             while(anteparo!=NULL){
                 Linha l = get_conteudo_lista(anteparo);
-                if(getAtivo(l)){
+                int id = getIDlinha(l);
+                if(getAtivo(l) && id>0){
                     Linha clone = clonarForma(l, LINHA, dx, dy, maior_id);
                     insere_lista(anteparos, clone);
                     printBombaClonagem(txt, l, LINHA, clone);
@@ -148,8 +238,14 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
     if(strcmp(sfx, "-")==0){
         print_poligono_svg(svgQry, final,"red",0.3);
     }else{
-        // print poligono em outro arquivo
+        FILE* svgSfx = NULL;
+        svgSfx = abre_arquivo_escrita(sfx);//arrumar
+        startSVG(svgSfx);
+        print_poligono_svg(svgSfx, final, "red", 0.3);
+        fechasvg(svgSfx);
+        free(svgSfx);
     }
+
     free_poligono(final);
     free(linhaQry);
 }

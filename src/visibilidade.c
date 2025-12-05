@@ -11,6 +11,7 @@
 #include "mergesort.h"
 
 #define PI 3.14159265358979323846
+#define epsilon 1e-9
 
 typedef enum{
     inicio,
@@ -37,15 +38,31 @@ void resetarAnteparos(Lista anteparos){
     }
 }
 
+double distSq(double x1, double y1, double x2, double y2){
+    return (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2);
+}
+
+int pontos_iguais(double x1,double y1, double x2, double y2){
+    return (fabs(x1-x2)<0.001 && fabs(y1-y2)< 0.001);
+}
+
 int cmp_eventos(const void* a, const void* b){
     evento* e1 = (evento*) a;
     evento* e2 = (evento*) b;
 
-    if(e1->angulo < e2->angulo) return -1;
-    if(e1->angulo > e2->angulo) return 1;
+    if(fabs(e1->angulo - e2->angulo)>epsilon){
+        return (e1->angulo<e2->angulo) ? -1:1;
+    }
 
-    if(e1->tipo == inicio && e2->tipo == fim) return -1;
-    if(e1->tipo == fim && e2->tipo == inicio) return 1;
+    double d1 = distSq(e1->x, e1->y, gbx, gby);
+    double d2 = distSq(e2->x, e2->y, gbx, gby);
+
+    if(fabs(d1 - d2)>epsilon){
+        return (d1>d2) ? -1:1;
+    }
+
+    if(e1->tipo==inicio && e2->tipo==fim) return -1;
+    if(e1->tipo==fim && e2->tipo==inicio) return 1;
 
     return 0;
 }
@@ -53,20 +70,12 @@ int cmp_eventos(const void* a, const void* b){
 int cmp_segmentos_arvore(Segmento a, Segmento b){
     if(a==b) return 0;
 
-    double ax1 = getX1linha(a), ay1 = getY1linha(a), ax2 = getX2linha(a), ay2 = getY2linha(a);
-    double bx1 = getX1linha(b), by1 = getY1linha(b), bx2 = getX2linha(b), by2 = getY2linha(b);
+    int id1 = getIDlinha(a);
+    int id2 = getIDlinha(b);
 
-    double dist_a = distancia_raio(gbx, gby, gvx, gvy, ax1, ay1, ax2, ay2);
-    double dist_b = distancia_raio(gbx, gby, gvx, gvy, bx1, by1, bx2, by2);
-
-    if(fabs(dist_a - dist_b) > 1e-9){
-        return (dist_a < dist_b) ? -1:1;
-    }
-
-    int ida = getIDlinha(a);
-    int idb = getIDlinha(b);
-
-    return (ida<idb) ? -1 : (ida>idb ? 1:0);
+    if(id1<id2) return -1;
+    if(id1>id2) return 1;
+    return 0;
 }
 
 Poligono calcular_visibilidade(Lista listaSegmentos, double bx, double by, char flag, int insertionParam){
@@ -129,7 +138,7 @@ Poligono calcular_visibilidade(Lista listaSegmentos, double bx, double by, char 
     Arvore seg_ativos = criar_arvore(cmp_segmentos_arvore);
     Poligono poligono = criar_poligono();
 
-    gvx = bx + 100.0;
+    gvx = bx + 200.0;
     gvy = by;
 
     atual = get_inicio_lista(listaSegmentos);
@@ -157,7 +166,7 @@ Poligono calcular_visibilidade(Lista listaSegmentos, double bx, double by, char 
         gvx = ev.x;
         gvy = ev.y;
 
-        Segmento seg_ante = busca_mais_proximo(seg_ativos);
+        Segmento seg_ante = busca_mais_proximo(seg_ativos, bx, by, gvx, gvy);
 
         if(seg_ante!=NULL){
             setAtivo(seg_ante,true);
@@ -165,13 +174,23 @@ Poligono calcular_visibilidade(Lista listaSegmentos, double bx, double by, char 
 
         if(ev.tipo == inicio){
             insere_arvore(seg_ativos, ev.seg);
+            printf("EV %d (%.2f graus): INSERIU ID %d\n", k, ev.angulo * 180/PI, getIDlinha(ev.seg));
         }else{
             remove_arvore(seg_ativos, ev.seg);
+            printf("EV %d (%.2f graus): REMOVEU ID %d\n", k, ev.angulo * 180/PI, getIDlinha(ev.seg));
         }
-        Segmento seg_depois = busca_mais_proximo(seg_ativos);
+        print_arvore_debug(seg_ativos);
+        Segmento seg_depois = busca_mais_proximo(seg_ativos, bx, by, gvx, gvy);
         if(seg_depois!=NULL){
             setAtivo(seg_depois,true);
         }
+
+        if(seg_depois != NULL)
+        printf("  -> VENCEDOR (Mais proximo): %d\n", getIDlinha(seg_ante));
+    else
+        printf("  -> VENCEDOR: NINGUEM (Luz infinita)\n");
+
+    printf("---------------------------------------------------\n");
 
         int vertice_visivel = 0;
         if(seg_ante==NULL){
