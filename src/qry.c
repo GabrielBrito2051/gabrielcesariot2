@@ -93,7 +93,7 @@ void bounding_box_poligono(Lista anteparos, Lista formas, double bx, double by){
     }
 }
 
-void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista anteparos, int* maior_id, char flag, int isortParam){
+void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista anteparos, int* maior_id, char flag, int isortParam, char* nomeBase){
     char* linhaQry = malloc(sizeof(char) * tam_linha);
     if(linhaQry==NULL){
         printf("Erro ao alocar memoria para a linha do Qry\n");
@@ -239,12 +239,17 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
     if(strcmp(sfx, "-")==0){
         print_poligono_svg(svgQry, final,"red",0.3);
     }else{
-        FILE* svgSfx = NULL;
-        svgSfx = abre_arquivo_escrita(sfx);//arrumar
+        char nomeSfx[1024];
+        snprintf(nomeSfx,sizeof(nomeSfx),"%s-%s.svg",nomeBase, sfx);
+        FILE* svgSfx = abre_arquivo_escrita(nomeSfx);
+        if(svgSfx==NULL){
+            printf("Erro ao criar o arquivo svg separado");
+            return;
+        }
         startSVG(svgSfx);
-        print_poligono_svg(svgSfx, final, "red", 0.3);
+        print_poligono_svg(svgSfx, final, "red",0.3);
         fechasvg(svgSfx);
-        free(svgSfx);
+        fclose(svgSfx);
     }
 
     free_poligono(final);

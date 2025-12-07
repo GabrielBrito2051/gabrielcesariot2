@@ -84,6 +84,11 @@ int main(int argc, char* argv[])
         snprintf(arquivoSaidaTxt, sizeof(arquivoSaidaTxt)+sizeof(onlyQry), "%s/%s-%s.txt", dirSaida, baseGeo, baseQry);
     }
 
+    char nomeBase[1024];
+    if(strlen(nomeArquivoGeo)>0 && strlen(nomeArquivoQry) > 0){
+        snprintf(nomeBase, sizeof(nomeBase), "%s/%s-%s",dirSaida, baseGeo, baseQry);
+    }
+
     FILE* geo;
     FILE* qry;
     FILE* txt;
@@ -106,7 +111,7 @@ int main(int argc, char* argv[])
     fechasvg(svgGeo);
     
     startSVG(svgQry);
-    leComandoQry(qry, svgQry, txt, formas, anteparos, &maior_id, sortType, sortParam);
+    leComandoQry(qry, svgQry, txt, formas, anteparos, &maior_id, sortType, sortParam, nomeBase);
     printar_lista(formas, svgQry, ts);
     printar_lista_anteparos(anteparos, svgQry);
     fechasvg(svgQry);

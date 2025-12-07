@@ -32,6 +32,7 @@
 /// @param ts Estilo de texto
 /// @param flag Flag do comando que indica se sera utilizado o qsort ou o mergesort para ordenar na arvore
 /// @param isortParam Flag do comando que indica o tamanho maximo que o subvetor deve ter para comecar a utilizar o insertion sort
-void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas,Lista anteparos, int* maoir_id, char flag, int isortParam);
+/// @param nomeBase Nome base para o arquivo adicional para a variavel "sfx" no comando das bombas
+void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas,Lista anteparos, int* maoir_id, char flag, int isortParam, char* nomeBase);
 
 #endif
