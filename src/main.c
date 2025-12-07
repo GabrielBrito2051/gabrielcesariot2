@@ -108,6 +108,7 @@ int main(int argc, char* argv[])
     startSVG(svgQry);
     leComandoQry(qry, svgQry, txt, formas, anteparos, &maior_id, sortType, sortParam);
     printar_lista(formas, svgQry, ts);
+    printar_lista_anteparos(anteparos, svgQry);
     fechasvg(svgQry);
 
     fecha_arquivo(svgGeo);

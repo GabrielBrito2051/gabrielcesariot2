@@ -164,6 +164,16 @@ void printar_lista(Lista l, FILE* svg, Estilo ts){
     }
 }
 
+void printar_lista_anteparos(Lista l, FILE* svg){
+    lista* var = (lista*)l;
+    if(var==NULL) return;
+    pont atual = var->inicio;
+    while(atual!=NULL){
+        printSVGforma(svg, LINHA, atual->forma, NULL);
+        atual = atual->prox;
+    }
+}
+
 void destroiListaDeAnteparos(Lista l){
     lista* var = (lista*)l;
     if(var==NULL) return;

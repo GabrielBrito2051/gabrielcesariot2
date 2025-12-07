@@ -174,23 +174,13 @@ Poligono calcular_visibilidade(Lista listaSegmentos, double bx, double by, char 
 
         if(ev.tipo == inicio){
             insere_arvore(seg_ativos, ev.seg);
-            printf("EV %d (%.2f graus): INSERIU ID %d\n", k, ev.angulo * 180/PI, getIDlinha(ev.seg));
         }else{
             remove_arvore(seg_ativos, ev.seg);
-            printf("EV %d (%.2f graus): REMOVEU ID %d\n", k, ev.angulo * 180/PI, getIDlinha(ev.seg));
         }
-        print_arvore_debug(seg_ativos);
         Segmento seg_depois = busca_mais_proximo(seg_ativos, bx, by, gvx, gvy);
         if(seg_depois!=NULL){
             setAtivo(seg_depois,true);
         }
-
-        if(seg_depois != NULL)
-        printf("  -> VENCEDOR (Mais proximo): %d\n", getIDlinha(seg_ante));
-    else
-        printf("  -> VENCEDOR: NINGUEM (Luz infinita)\n");
-
-    printf("---------------------------------------------------\n");
 
         int vertice_visivel = 0;
         if(seg_ante==NULL){

@@ -161,6 +161,7 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
             while(anteparo!=NULL){
                 Linha l = get_conteudo_lista(anteparo);
                 int id = getIDlinha(l);
+                anteparo = proximo_lista(anteparos, anteparo);
                 if(getAtivo(l) && id>0){
                     Linha removida = remove_lista(anteparos, compara_linha, id);
                     printBombaDestruicao(txt, removida, LINHA);
@@ -168,7 +169,7 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
                     freeCORPlinha(removida);
                     free(removida);
                 }
-                anteparo = proximo_lista(anteparos, anteparo);
+                
             }
         }
 

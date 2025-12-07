@@ -74,6 +74,11 @@ void destroiListaPoligono(Lista l);
 /// @param ts O estilo do texto
 void printar_lista(Lista l, FILE* svg, Estilo ts);
 
+/// @brief Imprime a lista de angeparos restantes no arquivo svg
+/// @param l A lista de anteparos
+/// @param svg Ponteiro para o arquivo svg
+void printar_lista_anteparos(Lista l, FILE* svg);
+
 /// @brief Libera a memoria da lista de anteparos
 /// @param l A lista de anteparos
 void destroiListaDeAnteparos(Lista l);

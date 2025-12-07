@@ -12,8 +12,6 @@ typedef int (*comparador)(  void* a, void*b);
     Arquivo .h relacionado a estrutura de uma arvore binaria, com funcoes de criar, inserir, remover e buscar.
 */
 
-void print_arvore_debug(Arvore a);
-
 /// @brief Cria uma nova arvore binaria
 /// @param f Ponteiro para a funcao que compara os segmentos
 /// @return Retorna o ponteiro para a arvore criada

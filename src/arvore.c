@@ -93,35 +93,6 @@ void liberar_recursivo(pont raiz){
     }
 }
 
-void print_no_recursivo(pont no) {
-    if (no == NULL) return; 
-    // Se usar sentinela: if (no == NULL || no == T->nil) return;
-
-    print_no_recursivo(no->esq); // 1. Visita filhos menores (mais proximos)
-
-    // 2. Imprime o nó atual
-    // Assumindo que no->seg é o segmento armazenado
-    // Ajuste 'getIDlinha' para o nome da sua função de pegar ID
-    if (no->seg != NULL) {
-        int id = getIDlinha(no->seg); 
-        printf("[%d] ", id); 
-    }
-
-    print_no_recursivo(no->dir); // 3. Visita filhos maiores (mais distantes)
-}
-
-void print_arvore_debug(Arvore a) {
-    arvore* arv = (arvore*)a;
-    if (arv == NULL || arv->raiz == NULL) {
-        printf("  (Arvore Vazia)\n");
-        return;
-    }
-    
-    printf("  ARVORE ATIVA: ");
-    print_no_recursivo(arv->raiz);
-    printf("\n");
-}
-
 void visita_e_compara(pont raiz){
     if(raiz==NULL)return;
     Segmento s = raiz->seg;
