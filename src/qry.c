@@ -18,7 +18,7 @@
 
 #define tam_linha 256
 
-void bounding_box_poligono(Lista anteparos, Lista formas, double bx, double by){
+void bounding_box_poligono(Lista anteparos, Lista formas, double bx, double by, char orient){
     double minX = bx, minY = by;
     double maxX = bx, maxY = by;
 
@@ -55,7 +55,7 @@ void bounding_box_poligono(Lista anteparos, Lista formas, double bx, double by){
                 if (y2 > maxY) maxY = y2;
             } else if(tipo==TEXTO){
                 double x1, y1, x2, y2;
-                getSegmentoLinha(f, TEXTO, &x1, &y1, &x2, &y2);
+                getSegmentoLinha(f, TEXTO, &x1, &y1, &x2, &y2, orient);
                 if (x1 < minX) minX = x1; 
                 if (x2 < minX) minX = x2;
                 if (x1 > maxX) maxX = x1; 
@@ -124,9 +124,9 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
                         printInfoAnteparos(txt, getFORMApacote(f),getTipoForma(f),anovo);
                     }
                 }else{
-                    getSegmentoLinha(getFORMApacote(f), getTipoForma(f), &xa, &ya, &xb, &yb);
+                    getSegmentoLinha(getFORMApacote(f), getTipoForma(f), &xa, &ya, &xb, &yb, orient);
                     novo_id++;
-                    Linha anovo = criar_linha(novo_id, xa,ya,xb,yb,getCORBforma(getFORMApacote(f)));
+                    Linha anovo = criar_linha(novo_id, xa,ya,xb,yb,getCORBforma(f));
                     insere_lista(anteparos, anovo);
                     printInfoAnteparos(txt, getFORMApacote(f),getTipoForma(f),anovo);
                 }
@@ -139,7 +139,7 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
             sscanf(linhaQry,"%*s %lf %lf %s",&x,&y,sfx);
             fprintf(txt,"BOMBA DE DESTRUICAO JOGADA NA COORDENADA (%lf,%lf)\n",x, y);
             insere_bomba_svg(svgQry, x, y);
-            bounding_box_poligono(anteparos, formas, x, y);
+            bounding_box_poligono(anteparos, formas, x, y, orient);
             Poligono explosao = calcular_visibilidade(anteparos, x, y, flag, isortParam);
             final = explosao;
             Forma no = get_inicio_lista(formas);
@@ -176,7 +176,7 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
         else if(strcmp(comando,"p")==0){
             sscanf(linhaQry, "%*s %lf %lf %s %s",&x,&y,cor,sfx);
             fprintf(txt,"BOMBA DE PINTURA JOGADA NA COORDENADA (%lf,%lf)\n",x, y);
-            bounding_box_poligono(anteparos, formas, x, y);
+            bounding_box_poligono(anteparos, formas, x, y, orient);
             Poligono pintura = calcular_visibilidade(anteparos, x, y, flag, isortParam);
             final = pintura;
             Forma no = get_inicio_lista(formas);
@@ -207,7 +207,7 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
         else if(strcmp(comando,"cln")==0){
             sscanf(linhaQry, "%*s %lf %lf %lf %lf %s", &x, &y, &dx, &dy, sfx);
             fprintf(txt,"BOMBA DE CLONAGEM JOGADA NA COORDENADA (%lf,%lf)\n",x, y);
-            bounding_box_poligono(anteparos, formas, x, y);
+            bounding_box_poligono(anteparos, formas, x, y, orient);
             Poligono clonagem = calcular_visibilidade(anteparos, x, y, flag, isortParam);
             final = clonagem;
             Forma no = get_inicio_lista(formas);

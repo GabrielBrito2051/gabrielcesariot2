@@ -270,10 +270,15 @@ int atinge_forma(Poligono poligono, Forma forma, tipoforma tipo){
 
     switch(tipo){
         case CIRCULO: {
-            double x, y;
+            double x, y, r;
             x = getXcirculo(forma);
             y = getYcirculo(forma);
+            r = getRcirculo(forma);
             if(contem_ponto(poligono, x, y)) return 1;
+            if(contem_ponto(poligono, x + r, y)) return 1;
+            if(contem_ponto(poligono, x - r, y)) return 1;
+            if(contem_ponto(poligono, x, y + r)) return 1;
+            if(contem_ponto(poligono, x, y - r)) return 1;
 
             return 0;
         }
@@ -314,7 +319,7 @@ int atinge_forma(Poligono poligono, Forma forma, tipoforma tipo){
             double x1, y1, x2, y2;
             x1 = getXtexto(forma);
             y1 = getYtexto(forma);
-            getSegmentoLinha(forma, tipo, &x1, &y1, &x2, &y2);
+            getSegmentoLinha(forma, tipo, &x1, &y1, &x2, &y2,NULL);
 
             if(contem_ponto(poligono,x1,y1)) return 1;
             if(contem_ponto(poligono,x2,y2)) return 1;

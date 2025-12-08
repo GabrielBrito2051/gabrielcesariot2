@@ -69,11 +69,13 @@ void freePacote(Pacote pac);
 
 /// @brief Obtem as coordenadas do segmento de linha para as formas linha, texto e circulo
 /// @param f A forma
+/// @param tipo O tipo da forma
 /// @param x1 Ponteiro para armazenar a coordenada x1 da forma
 /// @param y1 Ponteiro para armazenar a coordenada y1 da forma
 /// @param x2 Ponteiro para armazenar a coordenada x2 da forma
 /// @param y2 Ponteiro para armazenar a coordenada y2 da forma
-void getSegmentoLinha(Forma f, tipoforma tipo, double* x1, double*y1, double *x2, double* y2);
+/// @param orient Indica se os circulos serao trnasformados em segmentos verticais ou horizontais
+void getSegmentoLinha(Forma f, tipoforma tipo, double* x1, double*y1, double *x2, double* y2, char orient);
 
 /// @brief Obtem as coordenadas do segmento de linha para o retangulo
 /// @param f A forma

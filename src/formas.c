@@ -93,7 +93,7 @@ void freePacote(Pacote pac){
     free(pac);
 }
 
-void getSegmentoLinha(Forma f, tipoforma tipo, double* x1, double*y1, double *x2, double* y2){
+void getSegmentoLinha(Forma f, tipoforma tipo, double* x1, double*y1, double *x2, double* y2, char orient){
     if(tipo == LINHA){
         *x1 = getX1linha(f);
         *y1 = getY1linha(f);
@@ -126,10 +126,17 @@ void getSegmentoLinha(Forma f, tipoforma tipo, double* x1, double*y1, double *x2
         }
     }
     else if(tipo==CIRCULO){
-        *x1 = getXcirculo(f) + getRcirculo(f);
-        *y1 = getYcirculo(f) - getRcirculo(f);
-        *x2 = getXcirculo(f) - getRcirculo(f);
-        *y2 = getYcirculo(f) + getRcirculo(f);
+        if(orient == 'v'){
+            *x1 = getXcirculo(f);
+            *y1 = getYcirculo(f) - getRcirculo(f);
+            *x2 = getXcirculo(f);
+            *y2 = getYcirculo(f) + getRcirculo(f);
+        }else if(orient =='h'){
+            *x1 = getXcirculo(f) - getRcirculo(f);
+            *y1 = getYcirculo(f);
+            *x2 = getXcirculo(f) + getRcirculo(f);
+            *y2 = getYcirculo(f);
+        }
     }
 }
 
