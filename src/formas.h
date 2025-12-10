@@ -102,8 +102,8 @@ void setCORBforma(Forma f, tipoforma tipo, char* corb);
 /// @param tipo O tipo da forma
 /// @param dx A distancia que o clone sera deslocado no eixo x
 /// @param dy A distancia que o clone sera deslocado no eixo y
-/// @param maior_id Valor passado por referencia que indica a quantidade total de formas no chao inicial
-Pacote clonarForma(Forma f, tipoforma tipo, double dx, double dy, int* maior_id);
+/// @param maior_id Valor que indica o maior id
+Pacote clonarForma(Forma f, tipoforma tipo, double dx, double dy, int maior_id);
 
 /// @brief Imprime uma forma generica no arquivo svg
 /// @param svg Ponteiro para o arquivo svg

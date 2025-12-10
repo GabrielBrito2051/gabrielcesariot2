@@ -93,7 +93,7 @@ void bounding_box_poligono(Lista anteparos, Lista formas, double bx, double by, 
     }
 }
 
-void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista anteparos, int* maior_id, char flag, int isortParam, char* nomeBase){
+void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista anteparos, int* maior_id, char flag, int isortParam, char* nomeBase, Estilo ts){
     char* linhaQry = malloc(sizeof(char) * tam_linha);
     if(linhaQry==NULL){
         printf("Erro ao alocar memoria para a linha do Qry\n");
@@ -217,9 +217,10 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
                 Forma f = getFORMApacote(pac);
                 tipoforma tipo = getTipoForma(pac);
                 if(atinge_forma(clonagem, f, tipo)==1){
-                    Pacote pac = clonarForma(f, tipo,dx,dy, &novo_id);
-                    insere_lista(formas, pac);
-                    printBombaClonagem(txt, f, tipo, getFORMApacote(pac));
+                    Forma clonado = clonarForma(f, tipo,dx,dy, novo_id);
+                    novo_id++;
+                    printSVGforma(svgQry, tipo, clonado,ts);
+                    printBombaClonagem(txt, f, tipo, clonado);
                 }
                 no = proximo_lista(formas, no);
             }
@@ -229,10 +230,15 @@ void leComandoQry(FILE* qry, FILE* svgQry,FILE* txt, Lista formas, Lista antepar
                 Linha l = get_conteudo_lista(anteparo);
                 int id = getIDlinha(l);
                 if(getAtivo(l) && id>0){
-                    Linha clone = clonarForma(l, LINHA, dx, dy, maior_id);
-                    insere_lista(anteparos, clone);
-                    printBombaClonagem(txt, l, LINHA, clone);
+                    Linha cloneante = clonarForma(l, LINHA, dx, dy, novo_id);
+                    novo_id++;
+                    insere_linha_svg(svgQry, cloneante);
+                    freeCORBlinha(cloneante);
+                    freeCORPlinha(cloneante);
+                    printBombaClonagem(txt, l, LINHA, cloneante);
+                    free(cloneante);
                 }
+                anteparo = proximo_lista(anteparos, anteparo);
             }
         }
     }

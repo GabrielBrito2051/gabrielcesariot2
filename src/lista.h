@@ -83,4 +83,8 @@ void printar_lista_anteparos(Lista l, FILE* svg);
 /// @param l A lista de anteparos
 void destroiListaDeAnteparos(Lista l);
 
+/// @brief Libera a memoria dos nos da lista extra de clones
+/// @param l A lista de clones
+void destroiListaDeClones(Lista l);
+
 #endif

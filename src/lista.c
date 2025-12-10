@@ -189,3 +189,16 @@ void destroiListaDeAnteparos(Lista l){
     }
     free(var);
 }
+
+void destroiListaDeClones(Lista l){
+    lista* var = (lista*)l;
+    if(var==NULL) return;
+    pont atual = var->inicio;
+    pont apagar;
+    while(atual!=NULL){
+        apagar = atual;
+        atual = atual->prox;
+        free(apagar);
+    }
+    free(var);
+}

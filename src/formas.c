@@ -197,11 +197,11 @@ void setCORBforma(Forma f, tipoforma tipo, char* corb){
     }
 }
 
-Pacote clonarForma(Forma f, tipoforma tipo, double dx, double dy, int* maior_id){
-    int id = *maior_id + 1;
+Pacote clonarForma(Forma f, tipoforma tipo, double dx, double dy, int maior_id){
+    int id = maior_id;
     double x, y;
     char* corb, *corp;
-    Forma clone;
+    Forma clone = NULL;
     if(tipo==CIRCULO){
         x = getXcirculo(f);
         y = getYcirculo(f);
@@ -223,7 +223,7 @@ Pacote clonarForma(Forma f, tipoforma tipo, double dx, double dy, int* maior_id)
         y = getY1linha(f);
         double x2 = getX2linha(f), y2 = getY2linha(f);
         corb = getCORBlinha(f);
-        clone = criar_linha(id, x+dx, y+dy, x2, y2, corb);
+        clone = criar_linha(id, x+dx, y+dy, x2+dx, y2+dy, corb);
     }
     else if(tipo==TEXTO){
         x = getXtexto(f);
@@ -234,11 +234,7 @@ Pacote clonarForma(Forma f, tipoforma tipo, double dx, double dy, int* maior_id)
         char* txto = getTXTOtexto(f);
         clone = criar_texto(id, x+dx, y+dy, corb, corp, a, txto);
     }
-    *maior_id += 1;
-    Pacote pacote = criarPacote();
-    pacote->tipo = tipo;
-    pacote->forma = clone;
-    return pacote;
+    return clone;
 }
 
 void printSVGforma(FILE* svg, tipoforma tipo, Forma f, Estilo ts){
