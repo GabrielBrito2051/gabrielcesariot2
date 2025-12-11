@@ -319,7 +319,7 @@ int atinge_forma(Poligono poligono, Forma forma, tipoforma tipo){
             double x1, y1, x2, y2;
             x1 = getXtexto(forma);
             y1 = getYtexto(forma);
-            getSegmentoLinha(forma, tipo, &x1, &y1, &x2, &y2,NULL);
+            getSegmentoLinha(forma, tipo, &x1, &y1, &x2, &y2,'v');
 
             if(contem_ponto(poligono,x1,y1)) return 1;
             if(contem_ponto(poligono,x2,y2)) return 1;
